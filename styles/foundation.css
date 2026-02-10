@@ -1,0 +1,36 @@
+:root {
+  --foundation-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --foundation-bg: #f5f6f8;
+  --foundation-surface: #ffffff;
+  --foundation-border: #d8dce3;
+  --foundation-text: #1f2937;
+  --foundation-primary: #0b74de;
+  --foundation-radius: 12px;
+  --foundation-focus: 0 0 0 3px rgba(11, 116, 222, 0.25);
+}
+
+html, body {
+  font-family: var(--foundation-font);
+}
+
+body {
+  color: var(--foundation-text);
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--foundation-focus);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foundation-bg: #0f1115;
+    --foundation-surface: #1a1f29;
+    --foundation-border: #2d3545;
+    --foundation-text: #e5e7eb;
+  }
+}
