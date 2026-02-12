@@ -969,8 +969,16 @@ if (N > 1) {
       (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF :
       (window.jsPDF ? window.jsPDF : null);
 
-    if(!jsPDFCtor){ alert('jsPDF konnte nicht geladen werden.'); return; }
     if(!window.LastResult){ alert('Bitte zuerst berechnen.'); return; }
+
+    if(!jsPDFCtor){
+      const r = window.LastResult;
+      const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Projektbericht ${r.projekt||''}</title><style>body{font-family:Arial,sans-serif;padding:24px;line-height:1.45}h1{margin:0 0 8px}table{border-collapse:collapse;width:100%;margin-top:10px}td,th{border:1px solid #ccc;padding:6px 8px;text-align:left}th{background:#f3f3f3}</style></head><body><h1>Bedarfsermittlung Holzschindel</h1><p><strong>Projekt:</strong> ${r.projekt||''}</p><p>PDF-Bibliothek konnte nicht geladen werden. Dieser Bericht kann über den Browser als PDF gedruckt werden (Strg/Cmd+P).</p><table><tr><th>Wert</th><th>Ergebnis</th></tr><tr><td>Fläche gesamt</td><td>${r.qm!=null?Number(r.qm).toFixed(2)+' m²':'—'}</td></tr><tr><td>Bestell-Breitenmeter</td><td>${r.bmBestell!=null?Number(r.bmBestell).toFixed(2)+' bm':'—'}</td></tr><tr><td>Kaufmenge (m², Standard)</td><td>${r.kaufQmStd!=null?Number(r.kaufQmStd).toFixed(2)+' m²':'—'}</td></tr></table></body></html>`;
+      const w = window.open('', '_blank', 'noopener,noreferrer');
+      if(w){ w.document.open(); w.document.write(html); w.document.close(); w.focus(); }
+      alert('jsPDF konnte nicht geladen werden. Fallback-Bericht wurde geöffnet. Für echten PDF-Export bitte vendor/jspdf.umd.min.js lokal bereitstellen.');
+      return;
+    }
 
     const doc = new jsPDFCtor('p','mm','a4');
     const pageH = doc.internal.pageSize.getHeight();
