@@ -17,6 +17,9 @@
     .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
     .btn.ghost{background:#fff}
     .notice{margin-top:16px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;font-size:.9rem;color:#4b5563}
+    .status-list{margin:10px 0 0;padding-left:18px;color:#4b5563;font-size:.9rem}
+    .status-ok{color:#0a7a38;font-weight:600}
+    .status-miss{color:#b54708;font-weight:600}
   </style>
 </head>
 <body>
@@ -33,6 +36,40 @@
       <article class="card"><h2>Kegelstumpf-Rechner</h2><p>Abwicklung für Kegelstumpf inkl. Export.</p><div class="actions"><a class="btn primary" href="v2.3.2_Abwicklung%20Kegelstumpf.html">Öffnen</a><a class="btn ghost" href="v2.3.2_Abwicklung%20Kegelstumpf.html?strictLocal=1">Strict-Local</a></div></article>
     </section>
     <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig.</p>
+    <div class="notice" id="vendor-status-box">
+      <strong>Vendor-Status (für Strict-Local)</strong>
+      <ul class="status-list" id="vendor-status">
+        <li>Prüfe lokale Dateien …</li>
+      </ul>
+    </div>
+
   </main>
+  <script>
+    const vendorFiles = [
+      'vendor/jspdf.umd.min.js',
+      'vendor/xlsx.full.min.js',
+      'vendor/jspdf.plugin.autotable.min.js',
+      'vendor/fontawesome.all.min.js'
+    ];
+
+    async function checkVendorFiles() {
+      const list = document.getElementById('vendor-status');
+      if (!list) return;
+      const checks = await Promise.all(vendorFiles.map(async (file) => {
+        try {
+          const resp = await fetch(file, { method: 'HEAD', cache: 'no-store' });
+          return { file, ok: resp.ok };
+        } catch (_) {
+          return { file, ok: false };
+        }
+      }));
+
+      list.innerHTML = checks.map(({ file, ok }) =>
+        `<li><code>${file}</code>: <span class="${ok ? 'status-ok' : 'status-miss'}">${ok ? 'vorhanden' : 'fehlt'}</span></li>`
+      ).join('');
+    }
+
+    checkVendorFiles();
+  </script>
 </body>
 </html>
