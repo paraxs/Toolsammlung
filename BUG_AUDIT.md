@@ -36,3 +36,4 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 1. `vendor/` mit geprüften Bibliotheken befüllen (`xlsx`, `jspdf`, `autotable`, `fontawesome`).
 2. CDN-Fallback ist jetzt optional abschaltbar via `?strictLocal=1` (Cookie-Policy-Mode).
 3. Komponentenweise UI-Harmonisierung (Buttons/Inputs/Cards) in kleinen Commits mit Smoke-Checks.
+4. Startseite mit Strict-Local Direktlinks je Tool ergänzt.

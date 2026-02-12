@@ -7,17 +7,15 @@
   <link rel="stylesheet" href="styles/foundation.css">
   <style>
     :root { --card:#fff; --bg:#f3f5f8; --border:#d8dce3; --primary:#0b74de; --text:#1f2937; }
-    body{margin:0;background:var(--bg);color:var(--text);}
-    .wrap{max-width:1100px;margin:0 auto;padding:20px;}
-    h1{margin:0 0 6px;font-size:1.8rem}
-    .sub{color:#4b5563;margin:0 0 16px}
+    body{margin:0;background:var(--bg);color:var(--text);} .wrap{max-width:1100px;margin:0 auto;padding:20px;}
+    h1{margin:0 0 6px;font-size:1.8rem} .sub{color:#4b5563;margin:0 0 16px}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
-    .card h2{font-size:1rem;margin:0}
-    .card p{margin:0;color:#6b7280;font-size:.9rem;min-height:2.4em}
+    .card h2{font-size:1rem;margin:0} .card p{margin:0;color:#6b7280;font-size:.9rem;min-height:2.4em}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
     .btn{display:inline-block;padding:8px 10px;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:inherit;font-weight:600}
     .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+    .btn.ghost{background:#fff}
     .notice{margin-top:16px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;font-size:.9rem;color:#4b5563}
   </style>
 </head>
@@ -26,15 +24,15 @@
     <h1>Toolsammlung</h1>
     <p class="sub">Zentraler Einstieg für alle Werkstatt-Tools (P0).</p>
     <section class="grid">
-      <article class="card"><h2>Holz-Tools (Wrapper)</h2><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn primary" href="Holz-Tools.html">Öffnen</a></div></article>
-      <article class="card"><h2>Sparrenlängen-Rechner</h2><p>Berechnung von Sparrenlängen und Geometrie.</p><div class="actions"><a class="btn primary" href="Sparrenlängen-Rechner%20V%202.3.html">Öffnen</a></div></article>
-      <article class="card"><h2>Laser Entfernungsmesser</h2><p>Messungen erfassen und exportieren.</p><div class="actions"><a class="btn primary" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html">Öffnen</a></div></article>
-      <article class="card"><h2>BM/HS/DD Rechner</h2><p>Dach-/Schindel-Berechnungen mit Export.</p><div class="actions"><a class="btn primary" href="V6.1.18_BM_HS_DD%20.html">Öffnen</a></div></article>
-      <article class="card"><h2>Abwicklung & Verschnitt</h2><p>Abwicklung und Optimierung für Zuschnitte.</p><div class="actions"><a class="btn primary" href="V8.2Abwiklung%20Verschnittoptimierung.html">Öffnen</a></div></article>
-      <article class="card"><h2>RestauroMap</h2><p>Projektverwaltung und Dokumentation.</p><div class="actions"><a class="btn primary" href="V9_7_RestauroMap_fix.html">Öffnen</a></div></article>
-      <article class="card"><h2>Kegelstumpf-Rechner</h2><p>Abwicklung für Kegelstumpf inkl. Export.</p><div class="actions"><a class="btn primary" href="v2.3.2_Abwicklung%20Kegelstumpf.html">Öffnen</a></div></article>
+      <article class="card"><h2>Holz-Tools (Wrapper)</h2><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn primary" href="Holz-Tools.html">Öffnen</a><a class="btn ghost" href="Holz-Tools.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>Sparrenlängen-Rechner</h2><p>Berechnung von Sparrenlängen und Geometrie.</p><div class="actions"><a class="btn primary" href="Sparrenlängen-Rechner%20V%202.3.html">Öffnen</a><a class="btn ghost" href="Sparrenlängen-Rechner%20V%202.3.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>Laser Entfernungsmesser</h2><p>Messungen erfassen und exportieren.</p><div class="actions"><a class="btn primary" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html">Öffnen</a><a class="btn ghost" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>BM/HS/DD Rechner</h2><p>Dach-/Schindel-Berechnungen mit Export.</p><div class="actions"><a class="btn primary" href="V6.1.18_BM_HS_DD%20.html">Öffnen</a><a class="btn ghost" href="V6.1.18_BM_HS_DD%20.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>Abwicklung & Verschnitt</h2><p>Abwicklung und Optimierung für Zuschnitte.</p><div class="actions"><a class="btn primary" href="V8.2Abwiklung%20Verschnittoptimierung.html">Öffnen</a><a class="btn ghost" href="V8.2Abwiklung%20Verschnittoptimierung.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>RestauroMap</h2><p>Projektverwaltung und Dokumentation.</p><div class="actions"><a class="btn primary" href="V9_7_RestauroMap_fix.html">Öffnen</a><a class="btn ghost" href="V9_7_RestauroMap_fix.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><h2>Kegelstumpf-Rechner</h2><p>Abwicklung für Kegelstumpf inkl. Export.</p><div class="actions"><a class="btn primary" href="v2.3.2_Abwicklung%20Kegelstumpf.html">Öffnen</a><a class="btn ghost" href="v2.3.2_Abwicklung%20Kegelstumpf.html?strictLocal=1">Strict-Local</a></div></article>
     </section>
-    <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig (z. B. <code>V6.1.18_BM_HS_DD%20.html?strictLocal=1</code>).</p>
+    <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig.</p>
   </main>
 </body>
 </html>
