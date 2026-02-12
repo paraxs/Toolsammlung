@@ -26,6 +26,35 @@ button, input, select, textarea {
   box-shadow: var(--foundation-focus);
 }
 
+/*
+ * P1 UI-Harmonisierung (opt-in):
+ * Nur aktiv, wenn <body class="p1-harmony"> gesetzt ist.
+ * Niedrige Spezifität, um bestehende Tool-Styles nicht zu brechen.
+ */
+body.p1-harmony {
+  background: var(--foundation-bg);
+}
+
+body.p1-harmony :where(.card, .panel, .box) {
+  border-radius: var(--foundation-radius);
+  border: 1px solid var(--foundation-border);
+}
+
+body.p1-harmony :where(button, .btn) {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .08s ease;
+}
+
+body.p1-harmony :where(input, select, textarea) {
+  border-radius: 10px;
+  border: 1px solid var(--foundation-border);
+}
+
+body.p1-harmony :where(button:active, .btn:active) {
+  transform: translateY(1px);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foundation-bg: #0f1115;

@@ -19,6 +19,11 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
      - Beispiel: `vendor/jspdf.umd.min.js` → Fallback auf CDN nur wenn lokal fehlt.
    - Ergebnis: Bei lokal abgelegten Vendor-Dateien funktionieren Tools ohne externe Requests.
 
+
+3. **P1 UI-Harmonisierung (toolweise, sicher)**
+   - Umsetzung gestartet in `Holz-Tools.html` und `Sparrenlängen-Rechner V 2.3.html` via opt-in `body.p1-harmony`.
+   - Fokus auf Buttons/Inputs/Cards mit niedriger CSS-Spezifität, damit Berechnungs-/Canvaslogik unberührt bleibt.
+
 ## Priorität P2 (mittel)
 1. **Dateinamen/Versionen inkonsistent**
    - Risiko: Verlinkungs-/Deploymentfehler.
