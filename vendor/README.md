@@ -12,3 +12,9 @@ Die HTML-Tools sind auf **lokal-first** konfiguriert:
 - Nur wenn sie fehlt, wird automatisch auf CDN zurückgefallen.
 
 Sobald alle Vendor-Dateien lokal vorliegen, funktionieren die Export-/Icon-Funktionen ohne externe Script-Requests.
+
+
+## Strict-Local Modus (Cookie/Privacy)
+
+Mit `?strictLocal=1` am Seiten-URL wird der CDN-Fallback blockiert.
+Dann funktionieren Exporte nur mit lokal vorhandenen `vendor/*` Dateien.

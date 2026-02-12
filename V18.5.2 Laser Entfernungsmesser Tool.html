@@ -83,7 +83,7 @@
       tr.collapsed .result-cell { padding-top: 15px !important; padding-bottom: 15px !important; }
     }
   </style>
-  <script src="vendor/xlsx.full.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';console.warn('Lokale XLSX-Datei fehlt, verwende CDN');"></script>
+  <script src="vendor/xlsx.full.min.js" onerror="if(new URLSearchParams(location.search).get('strictLocal')==='1'){console.warn('StrictLocal aktiv: externer Fallback blockiert.');return;}this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';console.warn('Lokale XLSX-Datei fehlt, verwende CDN');"></script>
   <link rel="stylesheet" href="styles/foundation.css">
 </head>
 <body class="p1-harmony">

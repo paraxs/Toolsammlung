@@ -6,7 +6,7 @@
     <title>Abwicklung- und Verschnittoptimierung</title>
     <!-- Lokale/Systems-Schriftarten: keine externe Font-Abhängigkeit -->
     <!-- FontAwesome für Icons -->
-    <script src="vendor/fontawesome.all.min.js" onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js';console.warn('Lokale FontAwesome-Datei fehlt, verwende CDN');"></script>
+    <script src="vendor/fontawesome.all.min.js" onerror="if(new URLSearchParams(location.search).get('strictLocal')==='1'){console.warn('StrictLocal aktiv: externer Fallback blockiert.');return;}this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js';console.warn('Lokale FontAwesome-Datei fehlt, verwende CDN');"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
