@@ -21,7 +21,7 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 
 
 3. **P1 UI-Harmonisierung (toolweise, sicher)**
-   - Umsetzung aktiv in `Holz-Tools.html`, `Sparrenlängen-Rechner V 2.3.html`, `V18.5.2 Laser Entfernungsmesser Tool.html`, `V9_7_RestauroMap_fix.html` und `v2.3.2_Abwicklung Kegelstumpf.html` via opt-in `body.p1-harmony`.
+   - Umsetzung aktiv in allen 7 Tool-Seiten (`Holz-Tools.html`, `Sparrenlängen-Rechner V 2.3.html`, `V18.5.2 Laser Entfernungsmesser Tool.html`, `V6.1.18_BM_HS_DD .html`, `V8.2Abwiklung Verschnittoptimierung.html`, `V9_7_RestauroMap_fix.html`, `v2.3.2_Abwicklung Kegelstumpf.html`) via opt-in `body.p1-harmony`.
    - Fokus auf Buttons/Inputs/Cards mit niedriger CSS-Spezifität, damit Berechnungs-/Canvaslogik unberührt bleibt.
 
 ## Priorität P2 (mittel)
