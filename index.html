@@ -13,7 +13,7 @@
     .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
     .card h2{font-size:1rem;margin:0} .card p{margin:0;color:#6b7280;font-size:.9rem;min-height:2.4em}
     .actions{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{display:inline-block;padding:8px 10px;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:inherit;font-weight:600}
+    .btn{display:inline-block;padding:8px 10px;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:inherit;font-weight:600;cursor:pointer;background:#fff}
     .btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
     .btn.ghost{background:#fff}
     .notice{margin-top:16px;padding:10px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;font-size:.9rem;color:#4b5563}
@@ -22,6 +22,8 @@
     .status-miss{color:#b54708;font-weight:600}
     .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 0}
     .toggle{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--border);border-radius:10px;background:#fff}
+    .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width: 860px){ .check-grid{grid-template-columns:1fr;} }
   </style>
 </head>
 <body>
@@ -31,7 +33,9 @@
     <div class="toolbar">
       <label class="toggle"><input type="checkbox" id="strictLocalToggle"> Strict-Local global aktivieren</label>
       <small id="strictLocalState">Standardmodus aktiv.</small>
+      <button class="btn ghost" id="exportReadinessBtn" type="button">Readiness-Report exportieren</button>
     </div>
+
     <section class="grid">
       <article class="card"><h2>Holz-Tools (Wrapper)</h2><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn primary tool-link" data-base="Holz-Tools.html" href="Holz-Tools.html">Öffnen</a><a class="btn ghost" href="Holz-Tools.html?strictLocal=1">Strict-Local</a></div></article>
       <article class="card"><h2>Sparrenlängen-Rechner</h2><p>Berechnung von Sparrenlängen und Geometrie.</p><div class="actions"><a class="btn primary tool-link" data-base="Sparrenlängen-Rechner%20V%202.3.html" href="Sparrenlängen-Rechner%20V%202.3.html">Öffnen</a><a class="btn ghost" href="Sparrenlängen-Rechner%20V%202.3.html?strictLocal=1">Strict-Local</a></div></article>
@@ -41,14 +45,23 @@
       <article class="card"><h2>RestauroMap</h2><p>Projektverwaltung und Dokumentation.</p><div class="actions"><a class="btn primary tool-link" data-base="V9_7_RestauroMap_fix.html" href="V9_7_RestauroMap_fix.html">Öffnen</a><a class="btn ghost" href="V9_7_RestauroMap_fix.html?strictLocal=1">Strict-Local</a></div></article>
       <article class="card"><h2>Kegelstumpf-Rechner</h2><p>Abwicklung für Kegelstumpf inkl. Export.</p><div class="actions"><a class="btn primary tool-link" data-base="v2.3.2_Abwicklung%20Kegelstumpf.html" href="v2.3.2_Abwicklung%20Kegelstumpf.html">Öffnen</a><a class="btn ghost" href="v2.3.2_Abwicklung%20Kegelstumpf.html?strictLocal=1">Strict-Local</a></div></article>
     </section>
-    <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig.</p>
-    <div class="notice" id="vendor-status-box">
-      <strong>Vendor-Status (für Strict-Local)</strong>
-      <p id="vendor-summary" style="margin:8px 0 0;">Prüfe lokale Dateien …</p>
-      <ul class="status-list" id="vendor-status"></ul>
+
+    <div class="check-grid">
+      <div class="notice" id="vendor-status-box">
+        <strong>Vendor-Status (für Strict-Local)</strong>
+        <p id="vendor-summary" style="margin:8px 0 0;">Prüfe lokale Dateien …</p>
+        <ul class="status-list" id="vendor-status"></ul>
+      </div>
+      <div class="notice" id="tool-status-box">
+        <strong>Tool-Datei-Status (Go-Live)</strong>
+        <p id="tool-summary" style="margin:8px 0 0;">Prüfe Tool-Dateien …</p>
+        <ul class="status-list" id="tool-status"></ul>
+      </div>
     </div>
 
+    <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig.</p>
   </main>
+
   <script>
     const vendorFiles = [
       'vendor/jspdf.umd.min.js',
@@ -57,14 +70,21 @@
       'vendor/fontawesome.all.min.js'
     ];
 
+    const toolFiles = [
+      'Holz-Tools.html',
+      'Sparrenlängen-Rechner%20V%202.3.html',
+      'V18.5.2%20Laser%20Entfernungsmesser%20Tool.html',
+      'V6.1.18_BM_HS_DD%20.html',
+      'V8.2Abwiklung%20Verschnittoptimierung.html',
+      'V9_7_RestauroMap_fix.html',
+      'v2.3.2_Abwicklung%20Kegelstumpf.html'
+    ];
+
     async function fileExists(file) {
       try {
         const head = await fetch(file, { method: 'HEAD', cache: 'no-store' });
         if (head.ok) return true;
       } catch (_) {}
-
-      // Fallback für Umgebungen, in denen HEAD blockiert/umgeschrieben wird.
-      // Nutzt einen Range-GET (0-0), damit große Vendor-Dateien nicht komplett geladen werden.
       try {
         const getResp = await fetch(file, {
           method: 'GET',
@@ -77,24 +97,25 @@
       }
     }
 
-    async function checkVendorFiles() {
-      const list = document.getElementById('vendor-status');
-      const summary = document.getElementById('vendor-summary');
-      if (!list || !summary) return;
+    async function renderStatus(listId, summaryId, files, labelOk) {
+      const list = document.getElementById(listId);
+      const summary = document.getElementById(summaryId);
+      if (!list || !summary) return { okCount: 0, total: files.length, checks: [] };
 
-      const checks = await Promise.all(vendorFiles.map(async (file) => ({ file, ok: await fileExists(file) })));
+      const checks = await Promise.all(files.map(async (file) => ({ file, ok: await fileExists(file) })));
       const okCount = checks.filter(x => x.ok).length;
       const allOk = okCount === checks.length;
 
       summary.innerHTML = allOk
-        ? '<span class="status-ok">Strict-Local bereit:</span> alle Vendor-Dateien vorhanden.'
-        : `<span class="status-miss">Strict-Local eingeschränkt:</span> ${checks.length - okCount} Datei(en) fehlen.`;
+        ? `<span class="status-ok">${labelOk}:</span> alles vorhanden.`
+        : `<span class="status-miss">Unvollständig:</span> ${checks.length - okCount} Datei(en) fehlen.`;
 
       list.innerHTML = checks.map(({ file, ok }) =>
         `<li><code>${file}</code>: <span class="${ok ? 'status-ok' : 'status-miss'}">${ok ? 'vorhanden' : 'fehlt'}</span></li>`
       ).join('');
-    }
 
+      return { okCount, total: checks.length, checks };
+    }
 
     function setGlobalStrictLocal(enabled) {
       const links = document.querySelectorAll('.tool-link');
@@ -104,17 +125,40 @@
       });
       const state = document.getElementById('strictLocalState');
       if (state) state.textContent = enabled ? 'Strict-Local global aktiv (alle Öffnen-Links nutzen ?strictLocal=1).' : 'Standardmodus aktiv.';
+      localStorage.setItem('strictLocalGlobal', enabled ? '1' : '0');
+    }
+
+    async function runReadinessChecks() {
+      const vendor = await renderStatus('vendor-status', 'vendor-summary', vendorFiles, 'Strict-Local bereit');
+      const tools = await renderStatus('tool-status', 'tool-summary', toolFiles, 'Go-Live bereit');
+      window.__readinessReport = {
+        generatedAt: new Date().toISOString(),
+        strictLocalGlobal: localStorage.getItem('strictLocalGlobal') === '1',
+        vendor,
+        tools
+      };
     }
 
     const strictToggle = document.getElementById('strictLocalToggle');
     if (strictToggle) {
       const urlStrict = new URLSearchParams(location.search).get('strictLocal') === '1';
-      strictToggle.checked = urlStrict;
-      setGlobalStrictLocal(urlStrict);
+      const stored = localStorage.getItem('strictLocalGlobal') === '1';
+      strictToggle.checked = urlStrict || stored;
+      setGlobalStrictLocal(strictToggle.checked);
       strictToggle.addEventListener('change', () => setGlobalStrictLocal(strictToggle.checked));
     }
 
-    checkVendorFiles();
+    document.getElementById('exportReadinessBtn')?.addEventListener('click', () => {
+      const data = window.__readinessReport || { generatedAt: new Date().toISOString(), info: 'Noch keine Checks ausgeführt' };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `toolsammlung-readiness-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    runReadinessChecks();
   </script>
 </body>
 </html>

@@ -41,3 +41,4 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 6. Vendor-Status-Prüfung robust gemacht (HEAD mit GET-Fallback).
 7. Vendor-Status-Fallback optimiert (Range-GET statt Voll-Download bei großen Dateien).
 8. Startseite um globalen Strict-Local Toggle ergänzt (produktiver Privacy-Workflow).
+9. Startseite um Go-Live Readiness-Checks erweitert (Tool-Dateien + Vendor-Dateien + JSON-Report-Export).

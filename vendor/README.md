@@ -29,3 +29,9 @@ Die vier Vendor-Dateien sind jetzt im Repository enthalten:
 - `vendor/fontawesome.all.min.js`
 
 Damit funktionieren Exporte/Icons auch im Strict-Local Modus (`?strictLocal=1`) ohne externe Script-Requests.
+
+
+## Go-Live Check
+
+Auf `index.html` zeigt die Statusbox den Vendor- und Tool-Datei-Status.
+Zusätzlich kann ein JSON-Readiness-Report exportiert werden.
