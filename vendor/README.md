@@ -18,3 +18,14 @@ Sobald alle Vendor-Dateien lokal vorliegen, funktionieren die Export-/Icon-Funkt
 
 Mit `?strictLocal=1` am Seiten-URL wird der CDN-Fallback blockiert.
 Dann funktionieren Exporte nur mit lokal vorhandenen `vendor/*` Dateien.
+
+
+## Ist-Stand
+
+Die vier Vendor-Dateien sind jetzt im Repository enthalten:
+- `vendor/jspdf.umd.min.js`
+- `vendor/xlsx.full.min.js`
+- `vendor/jspdf.plugin.autotable.min.js`
+- `vendor/fontawesome.all.min.js`
+
+Damit funktionieren Exporte/Icons auch im Strict-Local Modus (`?strictLocal=1`) ohne externe Script-Requests.
