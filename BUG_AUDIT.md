@@ -45,3 +45,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 10. Startseite visuell an Website-CD angenähert (Hero/CTA/Panel-Struktur für einheitliche Unterseiten-Optik).
 
 11. Go-Live Hotfix-Pack: Deployment-Diagnostik ergänzt (Pfadkandidaten + Statuscode/Methodenanzeige pro Datei).
+
+13. Go-Live Dashboard erweitert (Nur-fehlende-Filter, Copy-Kurzstatus, Zeitstempel, Basispfad-Anzeige).

@@ -33,6 +33,7 @@
     .toolbar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.9rem;margin-top:-2rem;position:relative;z-index:2;box-shadow:0 8px 24px rgba(15,23,42,.08)}
     .toggle{display:inline-flex;align-items:center;gap:.55rem;padding:.45rem .75rem;border:1px solid var(--border);border-radius:10px;background:#fff}
     .state{color:var(--muted);font-size:.92rem}
+    .meta{color:var(--muted);font-size:.82rem}
 
     .btn{display:inline-block;padding:.62rem .9rem;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:inherit;font-weight:700;background:#fff;cursor:pointer;transition:.18s ease}
     .btn:hover{transform:translateY(-1px)}
@@ -50,6 +51,10 @@
     .status-list{margin:.55rem 0 0;padding-left:1rem;color:var(--muted);font-size:.9rem}
     .status-ok{color:var(--ok);font-weight:700}
     .status-miss{color:var(--warn);font-weight:700}
+      <label class="toggle"><input type="checkbox" id="showMissingOnly"> Nur fehlende anzeigen</label>
+      <button class="btn btn-ghost" id="copySummaryBtn" type="button">Kurzstatus kopieren</button>
+      <small id="lastCheckAt" class="meta">Letzter Check: –</small>
+      <br><span class="meta">Erkannter Basispfad: <code id="basePathLabel">(wird ermittelt)</code></span>
     .diag{color:#6b7280;font-size:.8rem}\n    .precheck{margin-top:1rem;padding:.8rem 1rem;background:#fff;border:1px dashed var(--border);border-radius:12px;color:#4b5563;font-size:.9rem}
 
     .cta{margin-top:1.1rem;background:var(--primary);color:#fff;border-radius:14px;padding:1.25rem;text-align:center}
@@ -177,9 +182,36 @@
         ? `<span class="status-ok">${labelOk}:</span> alles vorhanden.`
         : `<span class="status-miss">Unvollständig:</span> ${checks.length - okCount} Datei(en) fehlen.`;
 
-      list.innerHTML = checks.map(({ file, ok, method, status, path }) =>
-        `<li><code>${file}</code>: <span class="${ok ? 'status-ok' : 'status-miss'}">${ok ? 'vorhanden' : 'fehlt'}</span> <span class="diag">(${method} ${status || 'ERR'} • ${path})</span></li>`
-      ).join('');
+      const onlyMissing = document.getElementById('showMissingOnly')?.checked;
+      const visible = onlyMissing ? checks.filter(x => !x.ok) : checks;
+
+      list.innerHTML = visible.map(({ file, ok, method, status, path }) =>
+      ).join('') || '<li><span class="status-ok">Keine fehlenden Dateien.</span></li>';
+      const generatedAt = new Date().toISOString();
+      const basePath = new URL('.', window.location.href).pathname;
+        generatedAt,
+        onlyMissingView: document.getElementById('showMissingOnly')?.checked || false,
+        basePath,
+      const ts = document.getElementById('lastCheckAt');
+      if (ts) ts.textContent = `Letzter Check: ${new Date(generatedAt).toLocaleString('de-DE')}`;
+      const bp = document.getElementById('basePathLabel');
+      if (bp) bp.textContent = basePath;
+
+    document.getElementById('showMissingOnly')?.addEventListener('change', async () => {
+      await runReadinessChecks();
+    });
+
+    document.getElementById('copySummaryBtn')?.addEventListener('click', async () => {
+      const r = window.__readinessReport;
+      const text = r
+        ? `Go-Live Check ${r.generatedAt}
+BasePath: ${r.basePath}
+Vendor: ${r.vendor.okCount}/${r.vendor.total}
+Tools: ${r.tools.okCount}/${r.tools.total}`
+        : 'Noch kein Readiness-Report vorhanden.';
+      try { await navigator.clipboard.writeText(text); alert('Kurzstatus in Zwischenablage kopiert.'); }
+      catch (_) { alert('Kopieren nicht möglich.'); }
+    });
 
       return { okCount, total: checks.length, checks };
     }
