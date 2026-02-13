@@ -52,3 +52,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 
 
 15. Go-Live Blocker-Workflow vertieft (fehlende Dateinamen im Entscheidungsfeld + Copy mit Clipboard-Fallback/Detail-Liste).
+
+16. Readiness-Checks stabilisiert (Retry-Probe bei Status 0 + Persistenz für „Nur fehlende anzeigen“).
