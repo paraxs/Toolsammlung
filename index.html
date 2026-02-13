@@ -57,10 +57,15 @@
         if (head.ok) return true;
       } catch (_) {}
 
-      // Fallback für Umgebungen, in denen HEAD blockiert/umgeschrieben wird
+      // Fallback für Umgebungen, in denen HEAD blockiert/umgeschrieben wird.
+      // Nutzt einen Range-GET (0-0), damit große Vendor-Dateien nicht komplett geladen werden.
       try {
-        const getResp = await fetch(file, { method: 'GET', cache: 'no-store' });
-        return getResp.ok;
+        const getResp = await fetch(file, {
+          method: 'GET',
+          cache: 'no-store',
+          headers: { Range: 'bytes=0-0' }
+        });
+        return getResp.ok || getResp.status === 206;
       } catch (_) {
         return false;
       }

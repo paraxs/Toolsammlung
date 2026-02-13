@@ -39,3 +39,4 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 4. Startseite mit Strict-Local Direktlinks je Tool ergänzt.
 5. Startseite prüft jetzt lokale `vendor/*` Dateien (Statusanzeige).
 6. Vendor-Status-Prüfung robust gemacht (HEAD mit GET-Fallback).
+7. Vendor-Status-Fallback optimiert (Range-GET statt Voll-Download bei großen Dateien).
