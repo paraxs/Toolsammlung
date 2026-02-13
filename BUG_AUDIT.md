@@ -40,3 +40,4 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 5. Startseite prüft jetzt lokale `vendor/*` Dateien (Statusanzeige).
 6. Vendor-Status-Prüfung robust gemacht (HEAD mit GET-Fallback).
 7. Vendor-Status-Fallback optimiert (Range-GET statt Voll-Download bei großen Dateien).
+8. Startseite um globalen Strict-Local Toggle ergänzt (produktiver Privacy-Workflow).
