@@ -39,3 +39,5 @@ Zusätzlich kann ein JSON-Readiness-Report exportiert werden.
 Zusätzlich unterstützt das Dashboard jetzt eine „Nur fehlende anzeigen“-Ansicht und einen kopierbaren Kurzstatus für Freigabe-Workflows.
 
 Die Startseite zeigt zusätzlich eine Go-Live Entscheidung (bereit/nicht bereit) inklusive Blocker-Text und Copy-Blocker-Funktion.
+
+Copy-Blocker-Ausgabe enthält jetzt zusätzlich die konkreten fehlenden Vendor-/Tool-Dateien und nutzt einen Clipboard-Fallback für ältere Browser.

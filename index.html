@@ -89,8 +89,13 @@
     <div class="toolbar">
       <label class="toggle"><input type="checkbox" id="strictLocalToggle"> Strict-Local global aktivieren</label>
       <small id="strictLocalState" class="state">Standardmodus aktiv.</small>
-      <button class="btn btn-ghost" id="exportReadinessBtn" type="button">Readiness-Report exportieren</button>
-    </div>
+      <p class="meta" id="overallMissingFiles">Fehlende Dateien werden ermittelt …</p>
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timeoutId = controller ? setTimeout(() => controller.abort(), 4500) : null;
+          ? { method: 'HEAD', cache: 'no-store', signal: controller?.signal }
+          : { method: 'GET', cache: 'no-store', headers: { Range: 'bytes=0-0' }, signal: controller?.signal }
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
 
     <section class="grid" aria-label="Tool-Auswahl">
       <article class="card"><h2>Holz-Tools (Wrapper)</h2><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="Holz-Tools.html" href="Holz-Tools.html">Öffnen</a><a class="btn btn-ghost" href="Holz-Tools.html?strictLocal=1">Strict-Local</a></div></article>
@@ -202,9 +207,11 @@
       const generatedAt = new Date().toISOString();
       const basePath = new URL('.', window.location.href).pathname;
 
+      const missingVendor = vendor.checks.filter((x) => !x.ok).map((x) => x.file);
+      const missingTools = tools.checks.filter((x) => !x.ok).map((x) => x.file);
       const blockers = [];
-      if (vendor.okCount !== vendor.total) blockers.push(`Vendor-Dateien fehlen: ${vendor.total - vendor.okCount}`);
-      if (tools.okCount !== tools.total) blockers.push(`Tool-Dateien fehlen: ${tools.total - tools.okCount}`);
+      if (missingVendor.length) blockers.push(`Vendor-Dateien fehlen: ${missingVendor.length}`);
+      if (missingTools.length) blockers.push(`Tool-Dateien fehlen: ${missingTools.length}`);
       const recommendedGoLive = blockers.length === 0;
 
         generatedAt,
@@ -212,6 +219,8 @@
         basePath,
         tools,
         blockers,
+        missingVendor,
+        missingTools,
         recommendedGoLive
 
       if (ts) ts.textContent = `Letzter Check: ${new Date(generatedAt).toLocaleString('de-DE')}`;
@@ -221,7 +230,8 @@
       const box = document.getElementById('overallStatus');
       const summary = document.getElementById('overallSummary');
       const blockerText = document.getElementById('overallBlockers');
-      if (box && summary && blockerText) {
+      const missingFilesText = document.getElementById('overallMissingFiles');
+      if (box && summary && blockerText && missingFilesText) {
         box.classList.toggle('ok', recommendedGoLive);
         box.classList.toggle('bad', !recommendedGoLive);
         box.querySelector('h4').textContent = recommendedGoLive
@@ -231,6 +241,11 @@
           ? 'Alle geprüften Dateien sind vorhanden. Release-Freigabe ist technisch möglich.'
           : 'Es bestehen noch Blocker. Bitte vor Veröffentlichung beheben.';
         blockerText.textContent = blockers.length ? `Blocker: ${blockers.join(' | ')}` : 'Keine Blocker erkannt.';
+
+        const missingList = [...missingVendor, ...missingTools];
+        missingFilesText.textContent = missingList.length
+          ? `Fehlende Dateien: ${missingList.slice(0, 6).join(' | ')}${missingList.length > 6 ? ' …' : ''}`
+          : 'Fehlende Dateien: keine.';
       }
 
     document.getElementById('showMissingOnly')?.addEventListener('change', async () => {
@@ -245,17 +260,39 @@ BasePath: ${r.basePath}
 Vendor: ${r.vendor.okCount}/${r.vendor.total}
 Tools: ${r.tools.okCount}/${r.tools.total}`
         : 'Noch kein Readiness-Report vorhanden.';
-      try { await navigator.clipboard.writeText(text); alert('Kurzstatus in Zwischenablage kopiert.'); }
-      catch (_) { alert('Kopieren nicht möglich.'); }
+      const ok = await copyText(text);
+      alert(ok ? 'Kurzstatus in Zwischenablage kopiert.' : 'Kopieren nicht möglich.');
     });
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (_) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      }
+    }
 
     document.getElementById('copyBlockersBtn')?.addEventListener('click', async () => {
       const r = window.__readinessReport;
+      const parts = [];
+      if (r?.blockers?.length) parts.push('Blocker:', ...r.blockers.map((x) => `- ${x}`));
+      if (r?.missingVendor?.length) parts.push('', 'Fehlende Vendor-Dateien:', ...r.missingVendor.map((x) => `- ${x}`));
+      if (r?.missingTools?.length) parts.push('', 'Fehlende Tool-Dateien:', ...r.missingTools.map((x) => `- ${x}`));
       const text = r
-        ? (r.blockers && r.blockers.length ? r.blockers.join('\n') : 'Keine Blocker erkannt.')
+        ? (parts.length ? parts.join('\n') : 'Keine Blocker erkannt.')
         : 'Noch kein Readiness-Report vorhanden.';
-      try { await navigator.clipboard.writeText(text); alert('Blocker in Zwischenablage kopiert.'); }
-      catch (_) { alert('Kopieren nicht möglich.'); }
+      const ok = await copyText(text);
+      alert(ok ? 'Blocker in Zwischenablage kopiert.' : 'Kopieren nicht möglich.');
     });
 
       return { okCount, total: checks.length, checks };

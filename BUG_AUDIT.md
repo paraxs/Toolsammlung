@@ -49,3 +49,6 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 13. Go-Live Dashboard erweitert (Nur-fehlende-Filter, Copy-Kurzstatus, Zeitstempel, Basispfad-Anzeige).
 
 14. Go-Live Entscheidungsbox ergänzt (bereit/nicht bereit + Blocker-Extrakt + Copy-Blocker).
+
+
+15. Go-Live Blocker-Workflow vertieft (fehlende Dateinamen im Entscheidungsfeld + Copy mit Clipboard-Fallback/Detail-Liste).
