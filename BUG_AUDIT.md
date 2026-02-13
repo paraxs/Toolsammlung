@@ -56,3 +56,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 16. Readiness-Checks stabilisiert (Retry-Probe bei Status 0 + Persistenz für „Nur fehlende anzeigen“).
 
 17. Finaler Go-Live-Gate-Durchlauf dokumentiert (`GO_LIVE_GATE.md`): 7 Tools in Standard + Strict-Local auf Erreichbarkeit geprüft.
+
+18. Manuelle Fach-Szenarien als Go-Live-Checkliste ergänzt (`GO_LIVE_MANUAL_SCENARIOS.md`) mit Export/Import/Visualisierung je Tool (Standard + Strict-Local).

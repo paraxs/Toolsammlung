@@ -45,3 +45,5 @@ Copy-Blocker-Ausgabe enthält jetzt zusätzlich die konkreten fehlenden Vendor-/
 Dashboard-Filter „Nur fehlende anzeigen“ wird jetzt gespeichert; Probe-Logik nutzt bei Netzwerkfehlern (Status 0) einen zusätzlichen Retry mit Cache-Buster.
 
 Für den finalen Release-Check liegt ein Batch-Report unter `GO_LIVE_GATE.md` (Standard + Strict-Local je Tool).
+
+Zusätzlich liegt eine manuelle Go-Live-Fachcheckliste unter `GO_LIVE_MANUAL_SCENARIOS.md` (Export/Import/Visualisierung je Tool) vor.
