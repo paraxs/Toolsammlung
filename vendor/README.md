@@ -37,3 +37,5 @@ Auf `index.html` zeigt die Statusbox den Vendor- und Tool-Datei-Status.
 Zusätzlich kann ein JSON-Readiness-Report exportiert werden.
 
 Zusätzlich unterstützt das Dashboard jetzt eine „Nur fehlende anzeigen“-Ansicht und einen kopierbaren Kurzstatus für Freigabe-Workflows.
+
+Die Startseite zeigt zusätzlich eine Go-Live Entscheidung (bereit/nicht bereit) inklusive Blocker-Text und Copy-Blocker-Funktion.

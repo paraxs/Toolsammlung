@@ -34,6 +34,11 @@
     .toggle{display:inline-flex;align-items:center;gap:.55rem;padding:.45rem .75rem;border:1px solid var(--border);border-radius:10px;background:#fff}
     .state{color:var(--muted);font-size:.92rem}
     .meta{color:var(--muted);font-size:.82rem}
+    .overall{margin-top:1rem;padding:1rem;border-radius:12px;border:1px solid var(--border);background:#fff}
+    .overall.ok{border-color:#b7ebc6;background:#f0fff4}
+    .overall.bad{border-color:#f6c0a7;background:#fff7f2}
+    .overall h4{margin:.1rem 0 .35rem;font-size:1.05rem}
+    .overall p{margin:.2rem 0;color:var(--muted)}
 
     .btn{display:inline-block;padding:.62rem .9rem;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:inherit;font-weight:700;background:#fff;cursor:pointer;transition:.18s ease}
     .btn:hover{transform:translateY(-1px)}
@@ -53,7 +58,14 @@
     .status-miss{color:var(--warn);font-weight:700}
       <label class="toggle"><input type="checkbox" id="showMissingOnly"> Nur fehlende anzeigen</label>
       <button class="btn btn-ghost" id="copySummaryBtn" type="button">Kurzstatus kopieren</button>
+      <button class="btn btn-ghost" id="copyBlockersBtn" type="button">Blocker kopieren</button>
       <small id="lastCheckAt" class="meta">Letzter Check: –</small>
+    <section id="overallStatus" class="overall bad" aria-label="Go-Live Entscheidung">
+      <h4>Go-Live Entscheidung: wird geprüft …</h4>
+      <p id="overallSummary">Readiness läuft.</p>
+      <p class="meta" id="overallBlockers">Blocker werden ermittelt …</p>
+    </section>
+
       <br><span class="meta">Erkannter Basispfad: <code id="basePathLabel">(wird ermittelt)</code></span>
     .diag{color:#6b7280;font-size:.8rem}\n    .precheck{margin-top:1rem;padding:.8rem 1rem;background:#fff;border:1px dashed var(--border);border-radius:12px;color:#4b5563;font-size:.9rem}
 
@@ -189,13 +201,37 @@
       ).join('') || '<li><span class="status-ok">Keine fehlenden Dateien.</span></li>';
       const generatedAt = new Date().toISOString();
       const basePath = new URL('.', window.location.href).pathname;
+
+      const blockers = [];
+      if (vendor.okCount !== vendor.total) blockers.push(`Vendor-Dateien fehlen: ${vendor.total - vendor.okCount}`);
+      if (tools.okCount !== tools.total) blockers.push(`Tool-Dateien fehlen: ${tools.total - tools.okCount}`);
+      const recommendedGoLive = blockers.length === 0;
+
         generatedAt,
         onlyMissingView: document.getElementById('showMissingOnly')?.checked || false,
         basePath,
-      const ts = document.getElementById('lastCheckAt');
+        tools,
+        blockers,
+        recommendedGoLive
+
       if (ts) ts.textContent = `Letzter Check: ${new Date(generatedAt).toLocaleString('de-DE')}`;
       const bp = document.getElementById('basePathLabel');
       if (bp) bp.textContent = basePath;
+
+      const box = document.getElementById('overallStatus');
+      const summary = document.getElementById('overallSummary');
+      const blockerText = document.getElementById('overallBlockers');
+      if (box && summary && blockerText) {
+        box.classList.toggle('ok', recommendedGoLive);
+        box.classList.toggle('bad', !recommendedGoLive);
+        box.querySelector('h4').textContent = recommendedGoLive
+          ? 'Go-Live Entscheidung: bereit ✅'
+          : 'Go-Live Entscheidung: noch nicht bereit ⚠️';
+        summary.textContent = recommendedGoLive
+          ? 'Alle geprüften Dateien sind vorhanden. Release-Freigabe ist technisch möglich.'
+          : 'Es bestehen noch Blocker. Bitte vor Veröffentlichung beheben.';
+        blockerText.textContent = blockers.length ? `Blocker: ${blockers.join(' | ')}` : 'Keine Blocker erkannt.';
+      }
 
     document.getElementById('showMissingOnly')?.addEventListener('change', async () => {
       await runReadinessChecks();
@@ -210,6 +246,15 @@ Vendor: ${r.vendor.okCount}/${r.vendor.total}
 Tools: ${r.tools.okCount}/${r.tools.total}`
         : 'Noch kein Readiness-Report vorhanden.';
       try { await navigator.clipboard.writeText(text); alert('Kurzstatus in Zwischenablage kopiert.'); }
+      catch (_) { alert('Kopieren nicht möglich.'); }
+    });
+
+    document.getElementById('copyBlockersBtn')?.addEventListener('click', async () => {
+      const r = window.__readinessReport;
+      const text = r
+        ? (r.blockers && r.blockers.length ? r.blockers.join('\n') : 'Keine Blocker erkannt.')
+        : 'Noch kein Readiness-Report vorhanden.';
+      try { await navigator.clipboard.writeText(text); alert('Blocker in Zwischenablage kopiert.'); }
       catch (_) { alert('Kopieren nicht möglich.'); }
     });
 
