@@ -38,9 +38,8 @@
     <p class="notice">Hinweis: Tools laden Bibliotheken lokal aus <code>vendor/</code> zuerst. Optionaler Privacy-Modus: <code>?strictLocal=1</code> am URL-Ende blockiert CDN-Fallbacks vollständig.</p>
     <div class="notice" id="vendor-status-box">
       <strong>Vendor-Status (für Strict-Local)</strong>
-      <ul class="status-list" id="vendor-status">
-        <li>Prüfe lokale Dateien …</li>
-      </ul>
+      <p id="vendor-summary" style="margin:8px 0 0;">Prüfe lokale Dateien …</p>
+      <ul class="status-list" id="vendor-status"></ul>
     </div>
 
   </main>
@@ -52,17 +51,33 @@
       'vendor/fontawesome.all.min.js'
     ];
 
+    async function fileExists(file) {
+      try {
+        const head = await fetch(file, { method: 'HEAD', cache: 'no-store' });
+        if (head.ok) return true;
+      } catch (_) {}
+
+      // Fallback für Umgebungen, in denen HEAD blockiert/umgeschrieben wird
+      try {
+        const getResp = await fetch(file, { method: 'GET', cache: 'no-store' });
+        return getResp.ok;
+      } catch (_) {
+        return false;
+      }
+    }
+
     async function checkVendorFiles() {
       const list = document.getElementById('vendor-status');
-      if (!list) return;
-      const checks = await Promise.all(vendorFiles.map(async (file) => {
-        try {
-          const resp = await fetch(file, { method: 'HEAD', cache: 'no-store' });
-          return { file, ok: resp.ok };
-        } catch (_) {
-          return { file, ok: false };
-        }
-      }));
+      const summary = document.getElementById('vendor-summary');
+      if (!list || !summary) return;
+
+      const checks = await Promise.all(vendorFiles.map(async (file) => ({ file, ok: await fileExists(file) })));
+      const okCount = checks.filter(x => x.ok).length;
+      const allOk = okCount === checks.length;
+
+      summary.innerHTML = allOk
+        ? '<span class="status-ok">Strict-Local bereit:</span> alle Vendor-Dateien vorhanden.'
+        : `<span class="status-miss">Strict-Local eingeschränkt:</span> ${checks.length - okCount} Datei(en) fehlen.`;
 
       list.innerHTML = checks.map(({ file, ok }) =>
         `<li><code>${file}</code>: <span class="${ok ? 'status-ok' : 'status-miss'}">${ok ? 'vorhanden' : 'fehlt'}</span></li>`

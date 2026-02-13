@@ -38,3 +38,4 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 3. Komponentenweise UI-Harmonisierung (Buttons/Inputs/Cards) in kleinen Commits mit Smoke-Checks.
 4. Startseite mit Strict-Local Direktlinks je Tool ergänzt.
 5. Startseite prüft jetzt lokale `vendor/*` Dateien (Statusanzeige).
+6. Vendor-Status-Prüfung robust gemacht (HEAD mit GET-Fallback).
