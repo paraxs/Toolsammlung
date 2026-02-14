@@ -69,6 +69,42 @@ def safe_load_preflight_summary() -> dict:
     return summary if isinstance(summary, dict) else {}
 
 
+def collect_blockers(
+    preflight_result: dict,
+    signoff_result: dict,
+    preflight_summary: dict,
+    allow_open_signoff: bool,
+) -> list[str]:
+    blockers: list[str] = []
+
+    if preflight_result.get("code") != 0:
+        blockers.append("Preflight fehlgeschlagen (Vendor/URL-Checks nicht vollständig grün).")
+
+    if preflight_summary:
+        vp = preflight_summary.get("vendorPresent")
+        vt = preflight_summary.get("vendorTotal")
+        uo = preflight_summary.get("urlOk")
+        ut = preflight_summary.get("urlTotal")
+        if isinstance(vp, int) and isinstance(vt, int) and vp < vt:
+            blockers.append(f"Vendor-Checks unvollständig: {vp}/{vt} vorhanden.")
+        if isinstance(uo, int) and isinstance(ut, int) and uo < ut:
+            blockers.append(f"URL-Checks unvollständig: {uo}/{ut} erreichbar.")
+
+    if signoff_result.get("code") != 0 and not allow_open_signoff:
+        blockers.append("Strict-Signoff nicht bestanden (Template/Fails/uneindeutige Entscheidung).")
+
+    for line in signoff_result.get("stdout", "").splitlines():
+        if line.strip().startswith("❌"):
+            blockers.append(line.strip().lstrip("❌").strip())
+
+    # Deduplizieren bei stabiler Reihenfolge
+    dedup: list[str] = []
+    for b in blockers:
+        if b not in dedup:
+            dedup.append(b)
+    return dedup
+
+
 def main() -> int:
     args = parse_args()
     now = datetime.now().isoformat(timespec="seconds")
@@ -99,7 +135,15 @@ def main() -> int:
     }
 
     if has_server:
-        preflight_result = run_command([sys.executable, "scripts/run_golive_preflight.py", "--strict", "--base-url", f"http://127.0.0.1:{args.port}"])
+        preflight_result = run_command(
+            [
+                sys.executable,
+                "scripts/run_golive_preflight.py",
+                "--strict",
+                "--base-url",
+                f"http://127.0.0.1:{args.port}",
+            ]
+        )
 
     signoff_result = run_command([sys.executable, "scripts/validate_golive_signoff.py", "--strict"])
     strict_signoff_ok = signoff_result["code"] == 0
@@ -110,6 +154,7 @@ def main() -> int:
         overall_ok = preflight_result["code"] == 0 and strict_signoff_ok
 
     preflight_summary = safe_load_preflight_summary()
+    blockers = collect_blockers(preflight_result, signoff_result, preflight_summary, args.allow_open_signoff)
 
     summary = {
         "generatedAt": now,
@@ -127,6 +172,7 @@ def main() -> int:
             "signoffStrict": signoff_result,
         },
         "preflightSummary": preflight_summary,
+        "blockers": blockers,
         "overall": {"ok": overall_ok},
     }
 
@@ -151,6 +197,10 @@ def main() -> int:
             f"- Preflight Summary: Vendor {preflight_summary.get('vendorPresent', '?')}/{preflight_summary.get('vendorTotal', '?')}, "
             f"URLs {preflight_summary.get('urlOk', '?')}/{preflight_summary.get('urlTotal', '?')}",
         ]
+
+    if blockers:
+        md_lines += ["", "## Konkrete Blocker", ""]
+        md_lines.extend(f"- {b}" for b in blockers)
 
     md_lines += [
         "",

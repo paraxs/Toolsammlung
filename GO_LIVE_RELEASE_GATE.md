@@ -1,6 +1,6 @@
 # GO_LIVE_RELEASE_GATE.md
 
-Erstellt: 2026-02-14T09:00:29
+Erstellt: 2026-02-14T09:11:26
 
 ## Ergebnis
 
@@ -9,12 +9,17 @@ Erstellt: 2026-02-14T09:00:29
 - Modus: Strikt (Preflight + Signoff müssen grün sein)
 - Preflight Summary: Vendor 4/4, URLs 14/14
 
+## Konkrete Blocker
+
+- Strict-Signoff nicht bestanden (Template/Fails/uneindeutige Entscheidung).
+- Strict-Validation fehlgeschlagen: Template-Platzhalter noch vorhanden
+
 ## Check-Details
 
 | Check | Exit-Code | Dauer (s) |
 |---|---:|---:|
-| Preflight | 0 | 0.16 |
-| Signoff Strict | 1 | 0.07 |
+| Preflight | 0 | 0.15 |
+| Signoff Strict | 1 | 0.05 |
 
 ## Hinweise
 

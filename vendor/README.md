@@ -56,5 +56,5 @@ Schneller Vorab-Check: `python3 scripts/run_golive_preflight.py --strict --base-
 
 Sign-Off-Qualität prüfen: `python3 scripts/validate_golive_signoff.py` (oder `--strict` für harte Freigabeprüfung).
 
-Schneller End-to-End Gate-Check: `python3 scripts/run_release_gate.py --serve` erzeugt `GO_LIVE_RELEASE_GATE.md` und `GO_LIVE_RELEASE_GATE.json` (Preflight + Strict-Signoff in einem Lauf).
+Schneller End-to-End Gate-Check: `python3 scripts/run_release_gate.py --serve` erzeugt `GO_LIVE_RELEASE_GATE.md` und `GO_LIVE_RELEASE_GATE.json` (Preflight + Strict-Signoff in einem Lauf, listet jetzt auch konkrete Blocker).
 Zwischenstand ohne finalen Signoff-Block: `python3 scripts/run_release_gate.py --serve --allow-open-signoff`.

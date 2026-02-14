@@ -86,3 +86,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 31. Release-Gate-Runner erweitert (`--allow-open-signoff` + Preflight-Summary im Report), damit Infrastrukturstatus und finale Freigabe getrennt, aber reproduzierbar bewertet werden können.
 
 32. Preflight-Runner erweitert (`--base-url`, `--strict`) und Release-Gate auf konsistente Port-Weitergabe gehärtet, damit Checks auf jedem Zielport reproduzierbar sind.
+
+33. Release-Gate-Report um konkrete Blocker erweitert (`blockers` im JSON + Abschnitt in MD), damit unter Zeitdruck die No-Go-Ursachen direkt abgearbeitet werden können.

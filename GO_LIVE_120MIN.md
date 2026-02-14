@@ -35,6 +35,7 @@ Für alle 7 Tools mit `?strictLocal=1`:
 - `GO_LIVE_SIGNOFF.md` ausfüllen (Pass/Fail je Tool/Modus).
 - `python3 scripts/validate_golive_signoff.py --strict` ausführen (nur grün = freigabefähig).
 - Optional als Gesamtprüfung wiederholen: `python3 scripts/run_release_gate.py --serve` (oder Zwischenstand mit `--allow-open-signoff`).
+- Konkrete Blocker aus `GO_LIVE_RELEASE_GATE.md` übernehmen und abarbeiten.
 - Go/No-Go Entscheidung dokumentieren.
 
 ## 5) Live-Schaltung + Smoke (T-10 bis T+10)
