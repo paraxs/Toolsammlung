@@ -96,3 +96,6 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 36. Preflight erweitert (`scripts/run_golive_preflight.py`): Core-Dateien der Startseite werden zusätzlich geprüft (`index.html`, `scripts/index-dashboard.js`, `styles/foundation.css`) und in Report/Strict-Gate berücksichtigt.
 
 37. Post-Deploy-Smoke automatisiert (`scripts/run_postdeploy_smoke.py` + Runbook-Update): Live-URL kann jetzt in einem Batch auf Startseite + alle Tools (Standard/Strict-Local) geprüft werden.
+
+
+38. Release-Gate um optionalen Live-Postdeploy-Check erweitert (`--postdeploy-base-url`), damit Preflight/Signoff und echte Deployment-Smokes in einem Gate-Lauf zusammengeführt werden können.

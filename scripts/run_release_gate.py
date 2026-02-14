@@ -33,6 +33,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Do not fail overall gate when strict signoff still contains template placeholders/fails.",
     )
+    parser.add_argument(
+        "--postdeploy-base-url",
+        default="",
+        help="Optional deployed base URL for additional post-deploy smoke checks.",
+    )
     return parser.parse_args()
 
 
@@ -73,6 +78,7 @@ def collect_blockers(
     preflight_result: dict,
     signoff_result: dict,
     preflight_summary: dict,
+    postdeploy_result: dict,
     allow_open_signoff: bool,
 ) -> list[str]:
     blockers: list[str] = []
@@ -96,6 +102,9 @@ def collect_blockers(
 
     if signoff_result.get("code") != 0 and not allow_open_signoff:
         blockers.append("Strict-Signoff nicht bestanden (Template/Fails/uneindeutige Entscheidung).")
+
+    if postdeploy_result and postdeploy_result.get("code") != 0:
+        blockers.append("Post-Deploy-Smoke fehlgeschlagen (Live-URL nicht vollständig grün).")
 
     for line in signoff_result.get("stdout", "").splitlines():
         if line.strip().startswith("❌"):
@@ -152,19 +161,41 @@ def main() -> int:
     signoff_result = run_command([sys.executable, "scripts/validate_golive_signoff.py", "--strict"])
     strict_signoff_ok = signoff_result["code"] == 0
 
+    postdeploy_result: dict = {}
+    if args.postdeploy_base_url:
+        postdeploy_result = run_command(
+            [
+                sys.executable,
+                "scripts/run_postdeploy_smoke.py",
+                "--base-url",
+                args.postdeploy_base_url,
+                "--strict",
+            ]
+        )
+
     if args.allow_open_signoff:
         overall_ok = preflight_result["code"] == 0
     else:
         overall_ok = preflight_result["code"] == 0 and strict_signoff_ok
 
+    if postdeploy_result:
+        overall_ok = overall_ok and postdeploy_result.get("code") == 0
+
     preflight_summary = safe_load_preflight_summary()
-    blockers = collect_blockers(preflight_result, signoff_result, preflight_summary, args.allow_open_signoff)
+    blockers = collect_blockers(
+        preflight_result,
+        signoff_result,
+        preflight_summary,
+        postdeploy_result,
+        args.allow_open_signoff,
+    )
 
     summary = {
         "generatedAt": now,
         "flags": {
             "serve": args.serve,
             "allowOpenSignoff": args.allow_open_signoff,
+            "postdeployBaseUrl": args.postdeploy_base_url,
         },
         "server": {
             "port": args.port,
@@ -174,6 +205,7 @@ def main() -> int:
         "checks": {
             "preflight": preflight_result,
             "signoffStrict": signoff_result,
+            "postdeploySmoke": postdeploy_result,
         },
         "preflightSummary": preflight_summary,
         "blockers": blockers,
@@ -194,6 +226,7 @@ def main() -> int:
         f"- Gesamtstatus: {'✅ FREIGABE MÖGLICH' if overall_ok else '❌ NO-GO (Blocker vorhanden)'}",
         f"- Server erreichbar (127.0.0.1:{args.port}): {'✅' if has_server else '❌'}",
         f"- Modus: {'Preflight-gesteuert (Signoff darf offen sein)' if args.allow_open_signoff else 'Strikt (Preflight + Signoff müssen grün sein)'}",
+        f"- Post-Deploy Smoke: {'aktiv' if args.postdeploy_base_url else 'nicht aktiviert'}{f' ({args.postdeploy_base_url})' if args.postdeploy_base_url else ''}",
     ]
 
     if preflight_summary:
@@ -215,12 +248,14 @@ def main() -> int:
         "|---|---:|---:|",
         f"| Preflight | {preflight_result['code']} | {preflight_result['durationSec']} |",
         f"| Signoff Strict | {signoff_result['code']} | {signoff_result['durationSec']} |",
+        f"| Post-Deploy Smoke | {postdeploy_result.get('code', '—')} | {postdeploy_result.get('durationSec', '—')} |",
         "",
         "## Hinweise",
         "",
         "- Preflight läuft im Strict-Modus über die vom Gate gesetzte Base-URL (default 127.0.0.1:8000 oder `--port`).",
         "- Strikter Modus bricht ab, solange Platzhalter oder Fail-Zeilen in `GO_LIVE_SIGNOFF.md` enthalten sind.",
         "- Für Zwischenstände kann `--allow-open-signoff` genutzt werden, um Infrastruktur-Blocker separat zu beurteilen.",
+        "- Optionaler Live-Rauchtest: `--postdeploy-base-url https://<domain>/<pfad>` bindet den Post-Deploy-Smoke direkt ins Gate ein.",
         "",
     ]
 

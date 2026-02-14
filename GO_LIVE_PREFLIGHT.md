@@ -1,6 +1,6 @@
 # GO_LIVE_PREFLIGHT.md
 
-Erstellt: 2026-02-14T17:05:07
+Erstellt: 2026-02-14T17:11:51
 Base URL: `http://127.0.0.1:8000`
 
 ## Zusammenfassung

@@ -42,7 +42,8 @@ Für alle 7 Tools mit `?strictLocal=1`:
 - Deployment ausrollen.
 - Post-Deploy Smoke als Batch ausführen:
   - `python3 scripts/run_postdeploy_smoke.py --base-url https://<deine-domain>/<pfad> --strict`
-  - Ergebnis in `GO_LIVE_POSTDEPLOY_SMOKE.md/.json` prüfen.
+  - Oder direkt im Gate integrieren: `python3 scripts/run_release_gate.py --serve --postdeploy-base-url https://<deine-domain>/<pfad>`
+  - Ergebnis in `GO_LIVE_POSTDEPLOY_SMOKE.md/.json` bzw. `GO_LIVE_RELEASE_GATE.md/.json` prüfen.
 - 3 schnelle Live-Smokes im Browser:
   - Startseite / Tool öffnen
   - Export läuft

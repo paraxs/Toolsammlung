@@ -62,3 +62,4 @@ Schneller End-to-End Gate-Check: `python3 scripts/run_release_gate.py --serve` e
 Zwischenstand ohne finalen Signoff-Block: `python3 scripts/run_release_gate.py --serve --allow-open-signoff`.
 
 Post-Deploy Smoke (Live-URL): `python3 scripts/run_postdeploy_smoke.py --base-url https://<deine-domain>/<pfad> --strict` erzeugt `GO_LIVE_POSTDEPLOY_SMOKE.md` und `GO_LIVE_POSTDEPLOY_SMOKE.json`.
+Optional im Gate kombiniert: `python3 scripts/run_release_gate.py --serve --postdeploy-base-url https://<deine-domain>/<pfad>`.

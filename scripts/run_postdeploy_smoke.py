@@ -29,16 +29,16 @@ def parse_args() -> argparse.Namespace:
 def fetch(url: str) -> tuple[int | str, str]:
     try:
         with urllib.request.urlopen(url, timeout=8) as res:
-            body = res.read(180000).decode("utf-8", errors="ignore")
+            body = res.read(220000).decode("utf-8", errors="ignore")
             return res.status, body
     except Exception as exc:
         return "ERR", str(exc)
 
 
-def check_contains(url: str, needle: str) -> dict:
+def check_contains(name: str, url: str, needle: str) -> dict:
     status, body = fetch(url)
     ok = isinstance(status, int) and 200 <= status < 400 and needle in body
-    return {"url": url, "status": status, "needle": needle, "ok": ok}
+    return {"name": name, "url": url, "status": status, "needle": needle, "ok": ok}
 
 
 def main() -> int:
@@ -46,24 +46,27 @@ def main() -> int:
     now = datetime.now().isoformat(timespec="seconds")
     base = args.base_url.rstrip("/")
 
-    checks = []
-    checks.append(check_contains(f"{base}/index.html", "tool-link"))
-    checks.append(check_contains(f"{base}/index.html", "scripts/index-dashboard.js"))
+    checks: list[dict] = [
+        check_contains("Startseite HTML", f"{base}/index.html", "tool-link"),
+        check_contains("Dashboard-Skript", f"{base}/scripts/index-dashboard.js", "runReadinessChecks"),
+        check_contains("Foundation-CSS", f"{base}/styles/foundation.css", "--foundation-focus"),
+    ]
 
     for tool in TOOLS:
         encoded = urllib.parse.quote(tool)
-        checks.append(check_contains(f"{base}/{encoded}", "<html"))
-        checks.append(check_contains(f"{base}/{encoded}?strictLocal=1", "<html"))
+        checks.append(check_contains(f"{tool} (Standard)", f"{base}/{encoded}", "<html"))
+        checks.append(check_contains(f"{tool} (Strict-Local)", f"{base}/{encoded}?strictLocal=1", "<html"))
 
     ok_count = sum(1 for row in checks if row["ok"])
     total = len(checks)
-    summary = {"ok": ok_count, "total": total}
+    failed = [row for row in checks if not row["ok"]]
 
     payload = {
         "generatedAt": now,
         "baseUrl": base,
         "checks": checks,
-        "summary": summary,
+        "summary": {"ok": ok_count, "total": total, "failed": len(failed)},
+        "failed": failed,
     }
 
     Path("GO_LIVE_POSTDEPLOY_SMOKE.json").write_text(
@@ -79,17 +82,29 @@ def main() -> int:
         "## Ergebnis",
         "",
         f"- Smoke Checks OK: **{ok_count}/{total}**",
+        f"- Fehlgeschlagen: **{len(failed)}**",
+    ]
+
+    if failed:
+        md += ["", "## Fehlgeschlagene Checks", ""]
+        md.extend(f"- {row['name']}: `{row['url']}` (Status: {row['status']})" for row in failed)
+
+    md += [
         "",
-        "| URL | Status | Ergebnis |",
-        "|---|---:|---|",
+        "## Alle Checks",
+        "",
+        "| Check | URL | Status | Ergebnis |",
+        "|---|---|---:|---|",
     ]
     for row in checks:
-        md.append(f"| `{row['url']}` | {row['status']} | {'✅' if row['ok'] else '❌'} |")
+        md.append(
+            f"| {row['name']} | `{row['url']}` | {row['status']} | {'✅' if row['ok'] else '❌'} |"
+        )
 
     Path("GO_LIVE_POSTDEPLOY_SMOKE.md").write_text("\n".join(md), encoding="utf-8")
     print("generated GO_LIVE_POSTDEPLOY_SMOKE.json + GO_LIVE_POSTDEPLOY_SMOKE.md")
 
-    if args.strict and ok_count != total:
+    if args.strict and failed:
         return 1
     return 0
 
