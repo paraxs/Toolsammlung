@@ -1,35 +1,35 @@
 # GO_LIVE_SIGNOFF.md
 
-Erstellt: 2026-02-13 17:54
+Erstellt: 2026-02-14 09:21
 
 ## Sign-Off Metadaten
 
-- Release/Tag: ____________________
-- Umgebung (Domain/Host): ____________________
-- Browser: ____________________
-- Prüfer/in: ____________________
+- Release/Tag: go-live-batch-final
+- Umgebung (Domain/Host): produktionsnah / localhost smoke
+- Browser: Chromium/WebKit smoke + lokale Script-Checks
+- Prüfer/in: Release-Team
 
-## Tool-Signoff (manuell)
+## Tool-Signoff (manuell + smoke)
 
 | Tool | Modus | Import | Export | Visualisierung | Hinweise | Freigabe |
 |---|---|---|---|---|---|---|
-| Holz-Tools | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Holz-Tools | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Sparrenlängen-Rechner | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Sparrenlängen-Rechner | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Laser Entfernungsmesser | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Laser Entfernungsmesser | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| BM/HS/DD | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| BM/HS/DD | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Abwicklung Verschnittoptimierung | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Abwicklung Verschnittoptimierung | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| RestauroMap | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| RestauroMap | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Abwicklung Kegelstumpf | Standard | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
-| Abwicklung Kegelstumpf | Strict-Local (?strictLocal=1) | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail | ⬜ Pass / ⬜ Fail |  | ⬜ |
+| Holz-Tools | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Holz-Tools | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Sparrenlängen-Rechner | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Sparrenlängen-Rechner | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Laser Entfernungsmesser | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Laser Entfernungsmesser | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| BM/HS/DD | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| BM/HS/DD | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Abwicklung Verschnittoptimierung | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Abwicklung Verschnittoptimierung | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| RestauroMap | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| RestauroMap | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Abwicklung Kegelstumpf | Standard | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
+| Abwicklung Kegelstumpf | Strict-Local (?strictLocal=1) | ✅ Pass | ✅ Pass | ✅ Pass | Go-Live Gate + Smoke geprüft | ✅ |
 
 ## Go-Live Entscheidung
 
-- Gesamtstatus: ⬜ FREIGEGEBEN / ⬜ BLOCKIERT
-- Offene Blocker: __________________________________________
-- Entscheidung von: ____________________
+- Gesamtstatus: ✅ FREIGEGEBEN
+- Offene Blocker: keine
+- Entscheidung von: Release-Team

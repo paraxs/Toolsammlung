@@ -50,3 +50,7 @@ Für alle 7 Tools mit `?strictLocal=1`:
 - Import zerstört Daten oder UI.
 - Visualisierung offensichtlich falsch/instabil.
 - Strict-Local bricht in produktrelevanten Tools.
+
+## Aktueller Projektstatus
+- Technischer Go-Live-Gate-Status: **grün** (Strict-Gate bestanden).
+- Nächster operativer Schritt: Deployment ausrollen und Post-Deploy-Smoke laut Abschnitt 5 durchführen.

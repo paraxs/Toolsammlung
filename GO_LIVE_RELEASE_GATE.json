@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-14T09:11:26",
+  "generatedAt": "2026-02-14T09:21:58",
   "flags": {
     "serve": true,
     "allowOpenSignoff": false
@@ -13,15 +13,15 @@
     "preflight": {
       "cmd": "/root/.pyenv/versions/3.12.12/bin/python3 scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:8000",
       "code": 0,
-      "durationSec": 0.15,
+      "durationSec": 0.14,
       "stdout": "generated GO_LIVE_PREFLIGHT.json + GO_LIVE_PREFLIGHT.md",
       "stderr": ""
     },
     "signoffStrict": {
       "cmd": "/root/.pyenv/versions/3.12.12/bin/python3 scripts/validate_golive_signoff.py --strict",
-      "code": 1,
+      "code": 0,
       "durationSec": 0.05,
-      "stdout": "Signoff file: GO_LIVE_SIGNOFF.md\nPass tokens: 42\nFail tokens: 42\nTemplate placeholders: 50\n❌ Strict-Validation fehlgeschlagen: Template-Platzhalter noch vorhanden",
+      "stdout": "Signoff file: GO_LIVE_SIGNOFF.md\nPass tokens: 42\nFail tokens: 0\nTemplate placeholders: 0\n✅ Signoff enthält keine Template-Platzhalter mehr.\n✅ Validation abgeschlossen",
       "stderr": ""
     }
   },
@@ -31,11 +31,8 @@
     "urlOk": 14,
     "urlTotal": 14
   },
-  "blockers": [
-    "Strict-Signoff nicht bestanden (Template/Fails/uneindeutige Entscheidung).",
-    "Strict-Validation fehlgeschlagen: Template-Platzhalter noch vorhanden"
-  ],
+  "blockers": [],
   "overall": {
-    "ok": false
+    "ok": true
   }
 }

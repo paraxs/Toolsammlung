@@ -88,3 +88,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 32. Preflight-Runner erweitert (`--base-url`, `--strict`) und Release-Gate auf konsistente Port-Weitergabe gehärtet, damit Checks auf jedem Zielport reproduzierbar sind.
 
 33. Release-Gate-Report um konkrete Blocker erweitert (`blockers` im JSON + Abschnitt in MD), damit unter Zeitdruck die No-Go-Ursachen direkt abgearbeitet werden können.
+
+34. Go-Live-Signoff finalisiert (`GO_LIVE_SIGNOFF.md` ausgefüllt), Strict-Validation grün und Release-Gate im strikten Modus erfolgreich abgeschlossen.
