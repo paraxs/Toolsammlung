@@ -1,35 +1,16 @@
-# GO_LIVE_PREFLIGHT.md
+# GO_LIVE_POSTDEPLOY_SMOKE.md
 
-Erstellt: 2026-02-14T17:05:07
+Erstellt: 2026-02-14T17:05:17
 Base URL: `http://127.0.0.1:8000`
 
-## Zusammenfassung
+## Ergebnis
 
-- Vendor vorhanden: **4/4**
-- Core-Dateien erreichbar: **3/3**
-- URL Checks OK: **14/14**
-
-## Vendor-Dateien
-
-| Datei | Vorhanden | Größe (Bytes) |
-|---|---|---:|
-| `vendor/jspdf.umd.min.js` | ✅ | 364463 |
-| `vendor/xlsx.full.min.js` | ✅ | 881727 |
-| `vendor/jspdf.plugin.autotable.min.js` | ✅ | 36713 |
-| `vendor/fontawesome.all.min.js` | ✅ | 1609943 |
-
-## Core-Dateien (Startseite)
+- Smoke Checks OK: **16/16**
 
 | URL | Status | Ergebnis |
 |---|---:|---|
 | `http://127.0.0.1:8000/index.html` | 200 | ✅ |
-| `http://127.0.0.1:8000/scripts/index-dashboard.js` | 200 | ✅ |
-| `http://127.0.0.1:8000/styles/foundation.css` | 200 | ✅ |
-
-## URL-Checks (Standard + Strict-Local)
-
-| URL | Status | Ergebnis |
-|---|---:|---|
+| `http://127.0.0.1:8000/index.html` | 200 | ✅ |
 | `http://127.0.0.1:8000/Holz-Tools.html` | 200 | ✅ |
 | `http://127.0.0.1:8000/Holz-Tools.html?strictLocal=1` | 200 | ✅ |
 | `http://127.0.0.1:8000/Sparrenl%C3%A4ngen-Rechner%20V%202.3.html` | 200 | ✅ |

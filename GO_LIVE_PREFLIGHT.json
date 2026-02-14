@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-14T09:22:00",
+  "generatedAt": "2026-02-14T17:05:07",
   "baseUrl": "http://127.0.0.1:8000",
   "vendor": [
     {
@@ -21,6 +21,23 @@
       "file": "vendor/fontawesome.all.min.js",
       "exists": true,
       "size": 1609943
+    }
+  ],
+  "coreChecks": [
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/index.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/scripts/index-dashboard.js"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/styles/foundation.css"
     }
   ],
   "urlChecks": [
@@ -98,6 +115,8 @@
   "summary": {
     "vendorPresent": 4,
     "vendorTotal": 4,
+    "coreOk": 3,
+    "coreTotal": 3,
     "urlOk": 14,
     "urlTotal": 14
   }

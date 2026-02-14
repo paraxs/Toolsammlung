@@ -87,6 +87,10 @@ def collect_blockers(
         ut = preflight_summary.get("urlTotal")
         if isinstance(vp, int) and isinstance(vt, int) and vp < vt:
             blockers.append(f"Vendor-Checks unvollständig: {vp}/{vt} vorhanden.")
+        cp = preflight_summary.get("coreOk")
+        ct = preflight_summary.get("coreTotal")
+        if isinstance(cp, int) and isinstance(ct, int) and cp < ct:
+            blockers.append(f"Core-Checks unvollständig: {cp}/{ct} erreichbar.")
         if isinstance(uo, int) and isinstance(ut, int) and uo < ut:
             blockers.append(f"URL-Checks unvollständig: {uo}/{ut} erreichbar.")
 
@@ -195,6 +199,7 @@ def main() -> int:
     if preflight_summary:
         md_lines += [
             f"- Preflight Summary: Vendor {preflight_summary.get('vendorPresent', '?')}/{preflight_summary.get('vendorTotal', '?')}, "
+            f"Core {preflight_summary.get('coreOk', '?')}/{preflight_summary.get('coreTotal', '?')}, "
             f"URLs {preflight_summary.get('urlOk', '?')}/{preflight_summary.get('urlTotal', '?')}",
         ]
 

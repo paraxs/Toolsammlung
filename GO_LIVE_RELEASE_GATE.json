@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-14T09:21:58",
+  "generatedAt": "2026-02-14T17:05:06",
   "flags": {
     "serve": true,
     "allowOpenSignoff": false
@@ -13,7 +13,7 @@
     "preflight": {
       "cmd": "/root/.pyenv/versions/3.12.12/bin/python3 scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:8000",
       "code": 0,
-      "durationSec": 0.14,
+      "durationSec": 0.15,
       "stdout": "generated GO_LIVE_PREFLIGHT.json + GO_LIVE_PREFLIGHT.md",
       "stderr": ""
     },
@@ -28,6 +28,8 @@
   "preflightSummary": {
     "vendorPresent": 4,
     "vendorTotal": 4,
+    "coreOk": 3,
+    "coreTotal": 3,
     "urlOk": 14,
     "urlTotal": 14
   },

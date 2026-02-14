@@ -54,7 +54,11 @@ Für zeitkritische Releases gibt es zusätzlich `GO_LIVE_120MIN.md` als kompakte
 
 Schneller Vorab-Check: `python3 scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:8000` erzeugt `GO_LIVE_PREFLIGHT.md` und `GO_LIVE_PREFLIGHT.json` (non-zero bei Blockern).
 
+Der Preflight prüft jetzt zusätzlich die Core-Dateien der Startseite (`index.html`, `scripts/index-dashboard.js`, `styles/foundation.css`), damit Deployments mit fehlenden Basis-Dateien früh stoppen.
+
 Sign-Off-Qualität prüfen: `python3 scripts/validate_golive_signoff.py` (oder `--strict` für harte Freigabeprüfung).
 
 Schneller End-to-End Gate-Check: `python3 scripts/run_release_gate.py --serve` erzeugt `GO_LIVE_RELEASE_GATE.md` und `GO_LIVE_RELEASE_GATE.json` (Preflight + Strict-Signoff in einem Lauf, listet jetzt auch konkrete Blocker).
 Zwischenstand ohne finalen Signoff-Block: `python3 scripts/run_release_gate.py --serve --allow-open-signoff`.
+
+Post-Deploy Smoke (Live-URL): `python3 scripts/run_postdeploy_smoke.py --base-url https://<deine-domain>/<pfad> --strict` erzeugt `GO_LIVE_POSTDEPLOY_SMOKE.md` und `GO_LIVE_POSTDEPLOY_SMOKE.json`.

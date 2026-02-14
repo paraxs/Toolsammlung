@@ -5,6 +5,24 @@ function showDashboardWarning(message) {
   if (message) el.textContent = message;
 }
 
+const memoryStore = new Map();
+
+function getStorage(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (_) {
+    return memoryStore.has(key) ? memoryStore.get(key) : null;
+  }
+}
+
+function setStorage(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (_) {
+    memoryStore.set(key, String(value));
+  }
+}
+
 const vendorFiles = [
       'vendor/jspdf.umd.min.js',
       'vendor/xlsx.full.min.js',
@@ -125,7 +143,7 @@ const vendorFiles = [
       });
       const state = document.getElementById('strictLocalState');
       if (state) state.textContent = enabled ? 'Strict-Local global aktiv (alle Öffnen-Links nutzen ?strictLocal=1).' : 'Standardmodus aktiv.';
-      localStorage.setItem('strictLocalGlobal', enabled ? '1' : '0');
+      setStorage('strictLocalGlobal', enabled ? '1' : '0');
     }
 
     async function runReadinessChecks() {
@@ -144,7 +162,7 @@ const vendorFiles = [
 
       window.__readinessReport = {
         generatedAt,
-        strictLocalGlobal: localStorage.getItem('strictLocalGlobal') === '1',
+        strictLocalGlobal: getStorage('strictLocalGlobal') === '1',
         onlyMissingView: document.getElementById('showMissingOnly')?.checked || false,
         basePath,
         vendor,
@@ -185,7 +203,7 @@ const vendorFiles = [
     const strictToggle = document.getElementById('strictLocalToggle');
     if (strictToggle) {
       const urlStrict = new URLSearchParams(location.search).get('strictLocal') === '1';
-      const stored = localStorage.getItem('strictLocalGlobal') === '1';
+      const stored = getStorage('strictLocalGlobal') === '1';
       strictToggle.checked = urlStrict || stored;
       setGlobalStrictLocal(strictToggle.checked);
       strictToggle.addEventListener('change', () => setGlobalStrictLocal(strictToggle.checked));
@@ -205,9 +223,9 @@ const vendorFiles = [
 
     const showMissingOnly = document.getElementById('showMissingOnly');
     if (showMissingOnly) {
-      showMissingOnly.checked = localStorage.getItem('readinessShowMissingOnly') === '1';
+      showMissingOnly.checked = getStorage('readinessShowMissingOnly') === '1';
       showMissingOnly.addEventListener('change', async () => {
-        localStorage.setItem('readinessShowMissingOnly', showMissingOnly.checked ? '1' : '0');
+        setStorage('readinessShowMissingOnly', showMissingOnly.checked ? '1' : '0');
         await runReadinessChecks();
       });
     }
@@ -269,11 +287,11 @@ Tools: ${r.tools.okCount}/${r.tools.total}`
       const countPill = document.getElementById('toolCountPill');
       if (!input || cards.length === 0) return;
 
-      input.value = localStorage.getItem('toolSearchQuery') || '';
+      input.value = getStorage('toolSearchQuery') || '';
 
       const apply = () => {
         const q = input.value.trim().toLowerCase();
-        localStorage.setItem('toolSearchQuery', q);
+        setStorage('toolSearchQuery', q);
         let visible = 0;
         cards.forEach((card) => {
           const text = card.innerText.toLowerCase();

@@ -90,3 +90,9 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 33. Release-Gate-Report um konkrete Blocker erweitert (`blockers` im JSON + Abschnitt in MD), damit unter Zeitdruck die No-Go-Ursachen direkt abgearbeitet werden können.
 
 34. Go-Live-Signoff finalisiert (`GO_LIVE_SIGNOFF.md` ausgefüllt), Strict-Validation grün und Release-Gate im strikten Modus erfolgreich abgeschlossen.
+
+35. Dashboard-JS gegen Storage-Fehler gehärtet (`scripts/index-dashboard.js`): LocalStorage-Zugriffe laufen jetzt über Safe-Wrapper mit Memory-Fallback, damit im `file://`-Kontext oder restriktiven Browser-Settings keine Initialisierungsabbrüche mehr auftreten.
+
+36. Preflight erweitert (`scripts/run_golive_preflight.py`): Core-Dateien der Startseite werden zusätzlich geprüft (`index.html`, `scripts/index-dashboard.js`, `styles/foundation.css`) und in Report/Strict-Gate berücksichtigt.
+
+37. Post-Deploy-Smoke automatisiert (`scripts/run_postdeploy_smoke.py` + Runbook-Update): Live-URL kann jetzt in einem Batch auf Startseite + alle Tools (Standard/Strict-Local) geprüft werden.

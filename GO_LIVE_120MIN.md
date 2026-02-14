@@ -40,7 +40,10 @@ Für alle 7 Tools mit `?strictLocal=1`:
 
 ## 5) Live-Schaltung + Smoke (T-10 bis T+10)
 - Deployment ausrollen.
-- 3 schnelle Live-Smokes:
+- Post-Deploy Smoke als Batch ausführen:
+  - `python3 scripts/run_postdeploy_smoke.py --base-url https://<deine-domain>/<pfad> --strict`
+  - Ergebnis in `GO_LIVE_POSTDEPLOY_SMOKE.md/.json` prüfen.
+- 3 schnelle Live-Smokes im Browser:
   - Startseite / Tool öffnen
   - Export läuft
   - Keine kritischen JS-Fehler in Konsole
