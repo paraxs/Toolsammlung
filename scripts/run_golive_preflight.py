@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import json
 import urllib.parse
 import urllib.request
@@ -24,6 +25,21 @@ VENDOR = [
 ]
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Run go-live preflight checks (vendor + URL reachability).")
+    parser.add_argument(
+        "--base-url",
+        default="http://127.0.0.1:8000",
+        help="Base URL for tool reachability checks (default: http://127.0.0.1:8000)",
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Return non-zero if vendor files or URL checks are incomplete.",
+    )
+    return parser.parse_args()
+
+
 def check_url(url: str) -> dict:
     try:
         with urllib.request.urlopen(url, timeout=6) as res:
@@ -32,7 +48,9 @@ def check_url(url: str) -> dict:
         return {"ok": False, "status": "ERR", "url": url, "error": str(exc)}
 
 
-def main() -> None:
+def main() -> int:
+    args = parse_args()
+    base_url = args.base_url.rstrip("/")
     now = datetime.now().isoformat(timespec="seconds")
 
     vendor_rows = []
@@ -43,17 +61,21 @@ def main() -> None:
     url_rows = []
     for file in TOOLS:
         encoded = urllib.parse.quote(file)
-        url_rows.append(check_url(f"http://127.0.0.1:8000/{encoded}"))
-        url_rows.append(check_url(f"http://127.0.0.1:8000/{encoded}?strictLocal=1"))
+        url_rows.append(check_url(f"{base_url}/{encoded}"))
+        url_rows.append(check_url(f"{base_url}/{encoded}?strictLocal=1"))
+
+    vendor_present = sum(1 for r in vendor_rows if r["exists"])
+    url_ok = sum(1 for r in url_rows if r["ok"])
 
     report = {
         "generatedAt": now,
+        "baseUrl": base_url,
         "vendor": vendor_rows,
         "urlChecks": url_rows,
         "summary": {
-            "vendorPresent": sum(1 for r in vendor_rows if r["exists"]),
+            "vendorPresent": vendor_present,
             "vendorTotal": len(vendor_rows),
-            "urlOk": sum(1 for r in url_rows if r["ok"]),
+            "urlOk": url_ok,
             "urlTotal": len(url_rows),
         },
     }
@@ -64,6 +86,7 @@ def main() -> None:
         "# GO_LIVE_PREFLIGHT.md",
         "",
         f"Erstellt: {now}",
+        f"Base URL: `{base_url}`",
         "",
         "## Zusammenfassung",
         "",
@@ -91,6 +114,10 @@ def main() -> None:
     Path("GO_LIVE_PREFLIGHT.md").write_text("\n".join(lines), encoding="utf-8")
     print("generated GO_LIVE_PREFLIGHT.json + GO_LIVE_PREFLIGHT.md")
 
+    if args.strict and (vendor_present != len(vendor_rows) or url_ok != len(url_rows)):
+        return 1
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

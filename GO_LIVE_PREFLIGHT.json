@@ -1,5 +1,6 @@
 {
-  "generatedAt": "2026-02-14T08:52:31",
+  "generatedAt": "2026-02-14T09:00:29",
+  "baseUrl": "http://127.0.0.1:8000",
   "vendor": [
     {
       "file": "vendor/jspdf.umd.min.js",

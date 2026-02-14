@@ -52,7 +52,7 @@ Für den finalen Releaseentscheid steht `GO_LIVE_SIGNOFF.md` bereit (neu generie
 
 Für zeitkritische Releases gibt es zusätzlich `GO_LIVE_120MIN.md` als kompaktes operatives Runbook.
 
-Schneller Vorab-Check: `python3 scripts/run_golive_preflight.py` erzeugt `GO_LIVE_PREFLIGHT.md` und `GO_LIVE_PREFLIGHT.json`.
+Schneller Vorab-Check: `python3 scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:8000` erzeugt `GO_LIVE_PREFLIGHT.md` und `GO_LIVE_PREFLIGHT.json` (non-zero bei Blockern).
 
 Sign-Off-Qualität prüfen: `python3 scripts/validate_golive_signoff.py` (oder `--strict` für harte Freigabeprüfung).
 

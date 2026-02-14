@@ -91,7 +91,7 @@ def main() -> int:
 
     has_server = server_reachable(args.port)
     preflight_result: dict = {
-        "cmd": f"{sys.executable} scripts/run_golive_preflight.py",
+        "cmd": f"{sys.executable} scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:{args.port}",
         "code": 2,
         "durationSec": 0,
         "stdout": "",
@@ -99,7 +99,7 @@ def main() -> int:
     }
 
     if has_server:
-        preflight_result = run_command([sys.executable, "scripts/run_golive_preflight.py"])
+        preflight_result = run_command([sys.executable, "scripts/run_golive_preflight.py", "--strict", "--base-url", f"http://127.0.0.1:{args.port}"])
 
     signoff_result = run_command([sys.executable, "scripts/validate_golive_signoff.py", "--strict"])
     strict_signoff_ok = signoff_result["code"] == 0
@@ -163,7 +163,7 @@ def main() -> int:
         "",
         "## Hinweise",
         "",
-        "- Preflight benötigt einen erreichbaren lokalen Server (default Port 8000, alternativ `--port`).",
+        "- Preflight läuft im Strict-Modus über die vom Gate gesetzte Base-URL (default 127.0.0.1:8000 oder `--port`).",
         "- Strikter Modus bricht ab, solange Platzhalter oder Fail-Zeilen in `GO_LIVE_SIGNOFF.md` enthalten sind.",
         "- Für Zwischenstände kann `--allow-open-signoff` genutzt werden, um Infrastruktur-Blocker separat zu beurteilen.",
         "",

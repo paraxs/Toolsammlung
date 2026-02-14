@@ -11,6 +11,7 @@ Schneller, sicherer Go-Live-Durchlauf in 120 Minuten ohne neue Features.
 ## 1) Infrastruktur-Check (T-110 bis T-90)
 - `python3 scripts/run_release_gate.py --serve` ausführen (kombiniert Preflight + Strict-Signoff-Check).
 - Für Zwischenstände ohne finales Signoff: `python3 scripts/run_release_gate.py --serve --allow-open-signoff`.
+- Einzelner Infrastrukturcheck (ohne Gate): `python3 scripts/run_golive_preflight.py --strict --base-url http://127.0.0.1:8000`.
 - `index.html` laden.
 - Go-Live Cockpit prüfen (Vendor + Tool-Status).
 - Standard + `?strictLocal=1` für mindestens 1 Tool smoke-testen.

@@ -84,3 +84,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 30. Kombinierter Release-Gate-Runner ergänzt (`scripts/run_release_gate.py`) inkl. Output `GO_LIVE_RELEASE_GATE.md/.json` für einen Durchlauf (Preflight + Strict-Signoff).
 
 31. Release-Gate-Runner erweitert (`--allow-open-signoff` + Preflight-Summary im Report), damit Infrastrukturstatus und finale Freigabe getrennt, aber reproduzierbar bewertet werden können.
+
+32. Preflight-Runner erweitert (`--base-url`, `--strict`) und Release-Gate auf konsistente Port-Weitergabe gehärtet, damit Checks auf jedem Zielport reproduzierbar sind.
