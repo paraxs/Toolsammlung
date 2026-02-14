@@ -317,7 +317,18 @@
     let activeFile = "";
 
     function fileHref(file) {
-      return encodeURI(file);
+      try {
+        return new URL(file, window.location.href).href;
+      } catch (_) {
+        return file;
+      }
+    }
+
+    function openInNewTab(url) {
+      const win = window.open(url, "_blank", "noopener");
+      if (!win) {
+        window.location.href = url;
+      }
     }
 
     function applyViewerMode() {
@@ -377,12 +388,14 @@
       openBtn.textContent = "Öffnen";
       openBtn.addEventListener("click", () => setActive(tool.file));
 
-      const newTab = document.createElement("a");
+      const newTab = document.createElement("button");
       newTab.className = "link-btn";
-      newTab.href = fileHref(tool.file);
-      newTab.target = "_blank";
-      newTab.rel = "noopener";
+      newTab.type = "button";
       newTab.textContent = "Neuer Tab";
+      newTab.addEventListener("click", () => {
+        const href = fileHref(tool.file);
+        openInNewTab(href);
+      });
 
       actions.append(openBtn, newTab);
       li.append(title, desc, status, actions);
@@ -422,6 +435,7 @@
       strictLocalToggle.checked = true;
       strictLocalToggle.disabled = true;
       strictLocalToggle.title = "Bei lokalem Öffnen (file/content) ist direkte Navigation erforderlich.";
+      viewerOpenExternal.target = "_self";
     }
 
     applyViewerMode();
