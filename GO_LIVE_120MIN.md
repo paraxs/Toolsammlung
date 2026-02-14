@@ -9,6 +9,7 @@ Schneller, sicherer Go-Live-Durchlauf in 120 Minuten ohne neue Features.
 - Branch/Commit für Release markieren.
 
 ## 1) Infrastruktur-Check (T-110 bis T-90)
+- `python3 scripts/run_golive_preflight.py` ausführen (liefert Preflight-Report).
 - `index.html` laden.
 - Go-Live Cockpit prüfen (Vendor + Tool-Status).
 - Standard + `?strictLocal=1` für mindestens 1 Tool smoke-testen.

@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-02-14T08:34:55",
+  "vendor": [
+    {
+      "file": "vendor/jspdf.umd.min.js",
+      "exists": true,
+      "size": 364463
+    },
+    {
+      "file": "vendor/xlsx.full.min.js",
+      "exists": true,
+      "size": 881727
+    },
+    {
+      "file": "vendor/jspdf.plugin.autotable.min.js",
+      "exists": true,
+      "size": 36713
+    },
+    {
+      "file": "vendor/fontawesome.all.min.js",
+      "exists": true,
+      "size": 1609943
+    }
+  ],
+  "urlChecks": [
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/Holz-Tools.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/Holz-Tools.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/Sparrenl%C3%A4ngen-Rechner%20V%202.3.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/Sparrenl%C3%A4ngen-Rechner%20V%202.3.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V18.5.2%20Laser%20Entfernungsmesser%20Tool.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V18.5.2%20Laser%20Entfernungsmesser%20Tool.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V6.1.18_BM_HS_DD%20.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V6.1.18_BM_HS_DD%20.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V8.2Abwiklung%20Verschnittoptimierung.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V8.2Abwiklung%20Verschnittoptimierung.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V9_7_RestauroMap_fix.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/V9_7_RestauroMap_fix.html?strictLocal=1"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/v2.3.2_Abwicklung%20Kegelstumpf.html"
+    },
+    {
+      "ok": true,
+      "status": 200,
+      "url": "http://127.0.0.1:8000/v2.3.2_Abwicklung%20Kegelstumpf.html?strictLocal=1"
+    }
+  ],
+  "summary": {
+    "vendorPresent": 4,
+    "vendorTotal": 4,
+    "urlOk": 14,
+    "urlTotal": 14
+  }
+}
