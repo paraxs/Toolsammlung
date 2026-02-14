@@ -78,6 +78,7 @@
     .help-panel summary{cursor:pointer;list-style:none;padding:.82rem 1rem;font-weight:700;color:#0f172a;background:#f8fbff}
     .help-panel summary::-webkit-details-marker{display:none}
     .help-panel .help-content{padding:.85rem 1rem;color:#4b5563;font-size:.92rem;line-height:1.45}
+    .runtime-alert{margin-top:1rem;padding:.75rem .95rem;border-radius:12px;border:1px solid #f2c6b0;background:#fff4ee;color:#9a3412;font-size:.9rem}
     .toolbar .btn{min-height:42px}
     .actions .btn{min-height:40px}
     .hero-actions .btn{min-height:42px}
@@ -177,7 +178,9 @@
       <p class="meta" id="overallMissingFiles">Fehlende Dateien werden ermittelt …</p>
       const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
       const timeoutId = controller ? setTimeout(() => controller.abort(), 4500) : null;
-          ? { method: 'HEAD', cache: 'no-store', signal: controller?.signal }
+    <div id="dashboardScriptWarning" class="runtime-alert" hidden>Dashboard konnte nicht vollständig geladen werden. Bitte Seite neu laden oder Deployment prüfen.</div>
+
+    <script defer src="scripts/index-dashboard.js" onerror="(function(){var el=document.getElementById('dashboardScriptWarning'); if(el){el.hidden=false; el.textContent='Dashboard-Skript konnte nicht geladen werden. Prüfe Pfad scripts/index-dashboard.js und Deployment.';}})()"></script>
           : { method: 'GET', cache: 'no-store', headers: { Range: 'bytes=0-0' }, signal: controller?.signal }
       } finally {
         if (timeoutId) clearTimeout(timeoutId);

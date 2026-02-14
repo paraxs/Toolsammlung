@@ -72,3 +72,7 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 24. Tool-Suche auf der Startseite ergänzt (Live-Filter + sichtbarer Trefferzähler), inkl. Persistenz der Suchanfrage für schnelleren Wiedereinstieg.
 
 25. Tool-Karten mit Live-Verfügbarkeitsstatus ergänzt (pro Tool Badge: verfügbar/fehlt inkl. Statuscode) für schnellere Go-Live-Entscheidungen.
+
+26. Go-Live-Härtung Startseite: sichtbarer Runtime-Warnhinweis bei Dashboard-Script-Load/Init-Fehlern ergänzt (onerror + JS-Watchdog).
+
+27. Operativer Go-Live-Runbook ergänzt (`GO_LIVE_120MIN.md`) für schnellen 120-Minuten-Finish-Durchlauf mit klaren Stop-Kriterien.

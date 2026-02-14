@@ -49,3 +49,5 @@ Für den finalen Release-Check liegt ein Batch-Report unter `GO_LIVE_GATE.md` (S
 Zusätzlich liegt eine manuelle Go-Live-Fachcheckliste unter `GO_LIVE_MANUAL_SCENARIOS.md` (Export/Import/Visualisierung je Tool) vor.
 
 Für den finalen Releaseentscheid steht `GO_LIVE_SIGNOFF.md` bereit (neu generierbar mit `python3 scripts/generate_golive_signoff.py`).
+
+Für zeitkritische Releases gibt es zusätzlich `GO_LIVE_120MIN.md` als kompaktes operatives Runbook.

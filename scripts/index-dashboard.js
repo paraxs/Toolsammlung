@@ -1,3 +1,10 @@
+function showDashboardWarning(message) {
+  const el = document.getElementById('dashboardScriptWarning');
+  if (!el) return;
+  el.hidden = false;
+  if (message) el.textContent = message;
+}
+
 const vendorFiles = [
       'vendor/jspdf.umd.min.js',
       'vendor/xlsx.full.min.js',
@@ -281,5 +288,11 @@ Tools: ${r.tools.okCount}/${r.tools.total}`
       apply();
     }
 
-    initToolFilter();
-    runReadinessChecks();
+    try {
+      initToolFilter();
+      runReadinessChecks();
+      window.__dashboardInitialized = true;
+    } catch (err) {
+      showDashboardWarning('Dashboard initialisiert nicht korrekt. Bitte Seite neu laden oder Konsole prüfen.');
+      console.error(err);
+    }
