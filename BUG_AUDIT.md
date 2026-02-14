@@ -58,3 +58,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 17. Finaler Go-Live-Gate-Durchlauf dokumentiert (`GO_LIVE_GATE.md`): 7 Tools in Standard + Strict-Local auf Erreichbarkeit geprüft.
 
 18. Manuelle Fach-Szenarien als Go-Live-Checkliste ergänzt (`GO_LIVE_MANUAL_SCENARIOS.md`) mit Export/Import/Visualisierung je Tool (Standard + Strict-Local).
+
+19. Sign-Off-Template ergänzt (`GO_LIVE_SIGNOFF.md`) + Generator (`scripts/generate_golive_signoff.py`) für reproduzierbare Freigabeprotokolle.

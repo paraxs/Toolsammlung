@@ -35,3 +35,7 @@ Kurzer, nachvollziehbarer Fach-Szenario-Durchlauf pro Tool mit Echtdaten-Checkpu
 
 - Infrastruktur-/Erreichbarkeits-Teil: dokumentiert und reproduzierbar.
 - Fachklick-Teil: mit obiger Matrix klar vorbereitet; letzte manuelle Browser-Abnahme bleibt vor Public Go-Live erforderlich.
+
+## Abschluss
+
+Nach dem Durchlauf das Ergebnis in `GO_LIVE_SIGNOFF.md` eintragen (oder neu erzeugen via `python3 scripts/generate_golive_signoff.py`).

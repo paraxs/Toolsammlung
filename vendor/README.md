@@ -47,3 +47,5 @@ Dashboard-Filter „Nur fehlende anzeigen“ wird jetzt gespeichert; Probe-Logik
 Für den finalen Release-Check liegt ein Batch-Report unter `GO_LIVE_GATE.md` (Standard + Strict-Local je Tool).
 
 Zusätzlich liegt eine manuelle Go-Live-Fachcheckliste unter `GO_LIVE_MANUAL_SCENARIOS.md` (Export/Import/Visualisierung je Tool) vor.
+
+Für den finalen Releaseentscheid steht `GO_LIVE_SIGNOFF.md` bereit (neu generierbar mit `python3 scripts/generate_golive_signoff.py`).
