@@ -1,6 +1,6 @@
 # GO_LIVE_RELEASE_GATE.md
 
-Erstellt: 2026-02-14T17:11:42
+Erstellt: 2026-02-14T18:49:47
 
 ## Ergebnis
 
@@ -14,9 +14,9 @@ Erstellt: 2026-02-14T17:11:42
 
 | Check | Exit-Code | Dauer (s) |
 |---|---:|---:|
-| Preflight | 0 | 0.17 |
-| Signoff Strict | 0 | 0.07 |
-| Post-Deploy Smoke | 0 | 0.15 |
+| Preflight | 0 | 0.15 |
+| Signoff Strict | 0 | 0.06 |
+| Post-Deploy Smoke | 0 | 0.14 |
 
 ## Hinweise
 

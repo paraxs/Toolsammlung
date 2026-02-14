@@ -1,6 +1,6 @@
 # GO_LIVE_POSTDEPLOY_SMOKE.md
 
-Erstellt: 2026-02-14T17:11:47
+Erstellt: 2026-02-14T18:49:48
 Base URL: `http://127.0.0.1:8000`
 
 ## Ergebnis

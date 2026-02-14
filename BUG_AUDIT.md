@@ -99,3 +99,6 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 
 
 38. Release-Gate um optionalen Live-Postdeploy-Check erweitert (`--postdeploy-base-url`), damit Preflight/Signoff und echte Deployment-Smokes in einem Gate-Lauf zusammengeführt werden können.
+
+
+39. Startseite für lokalen Datei-Start gehärtet (`index.html`): Dashboard-Skript wird inline eingebettet, damit `content://`/`file://`-Öffnung auf Smartphones keinen externen Script-Load-Fehler mit sichtbar ausgerendertem JS-Text mehr erzeugt.
