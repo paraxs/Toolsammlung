@@ -225,6 +225,15 @@
       background: white;
     }
 
+    .viewer.is-external-mode iframe {
+      display: none;
+    }
+
+    .viewer.is-external-mode .empty {
+      display: block;
+      text-align: left;
+    }
+
     .empty {
       padding: 20px 16px;
       color: var(--muted);
@@ -258,7 +267,7 @@
       <input id="searchInput" type="search" placeholder="Tool suchen …" aria-label="Tool suchen" />
       <label class="toggle" for="strictLocalToggle">
         <input id="strictLocalToggle" type="checkbox" />
-        Strict-Local (ohne iframe)
+        Direkt öffnen (ohne iframe)
       </label>
     </section>
 
@@ -300,11 +309,25 @@
     const viewerTitle = document.getElementById("viewerTitle");
     const viewerOpenExternal = document.getElementById("viewerOpenExternal");
     const viewerEmpty = document.getElementById("viewerEmpty");
+    const viewerPanel = document.querySelector(".viewer");
+
+    const externalOnlyProtocols = new Set(["file:", "content:"]);
+    const externalOnlyMode = externalOnlyProtocols.has(window.location.protocol);
 
     let activeFile = "";
 
     function fileHref(file) {
       return encodeURI(file);
+    }
+
+    function applyViewerMode() {
+      const openDirectly = strictLocalToggle.checked || externalOnlyMode;
+      viewerPanel.classList.toggle("is-external-mode", openDirectly);
+      if (openDirectly) {
+        viewerEmpty.textContent = "Auf diesem Gerät/Protokoll werden Tools direkt geöffnet. Tippe auf ‚Öffnen‘ oder ‚Direkt öffnen‘.";
+      } else if (!activeFile) {
+        viewerEmpty.textContent = "Wähle links ein Tool aus, um es hier direkt zu starten.";
+      }
     }
 
     function setActive(file) {
@@ -322,7 +345,7 @@
       viewerOpenExternal.style.display = "inline-flex";
       viewerEmpty.style.display = "none";
 
-      if (strictLocalToggle.checked) {
+      if (strictLocalToggle.checked || externalOnlyMode) {
         toolFrame.removeAttribute("src");
         window.location.href = href;
       } else {
@@ -383,16 +406,25 @@
         viewerTitle.textContent = filtered.length ? "Tool auswählen" : "Keine Treffer";
         viewerOpenExternal.style.display = "none";
         viewerEmpty.style.display = "block";
+        applyViewerMode();
       }
     }
 
     searchInput.addEventListener("input", renderTools);
     strictLocalToggle.addEventListener("change", () => {
-      if (activeFile && !strictLocalToggle.checked) {
+      applyViewerMode();
+      if (activeFile && !strictLocalToggle.checked && !externalOnlyMode) {
         toolFrame.src = fileHref(activeFile);
       }
     });
 
+    if (externalOnlyMode) {
+      strictLocalToggle.checked = true;
+      strictLocalToggle.disabled = true;
+      strictLocalToggle.title = "Bei lokalem Öffnen (file/content) ist direkte Navigation erforderlich.";
+    }
+
+    applyViewerMode();
     renderTools();
   </script>
 </body>
