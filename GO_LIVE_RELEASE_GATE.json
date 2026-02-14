@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-02-14T08:46:30",
+  "server": {
+    "port": 8000,
+    "reachable": true,
+    "startedByScript": true,
+    "serveFlag": true
+  },
+  "checks": {
+    "preflight": {
+      "cmd": "/root/.pyenv/versions/3.12.12/bin/python3 scripts/run_golive_preflight.py",
+      "code": 0,
+      "durationSec": 0.15,
+      "stdout": "generated GO_LIVE_PREFLIGHT.json + GO_LIVE_PREFLIGHT.md",
+      "stderr": ""
+    },
+    "signoffStrict": {
+      "cmd": "/root/.pyenv/versions/3.12.12/bin/python3 scripts/validate_golive_signoff.py --strict",
+      "code": 1,
+      "durationSec": 0.05,
+      "stdout": "Signoff file: GO_LIVE_SIGNOFF.md\nPass tokens: 42\nFail tokens: 42\nTemplate placeholders: 50\n❌ Strict-Validation fehlgeschlagen: Template-Platzhalter noch vorhanden",
+      "stderr": ""
+    }
+  },
+  "overall": {
+    "ok": false
+  }
+}

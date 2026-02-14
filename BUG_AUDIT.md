@@ -80,3 +80,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 28. One-Command Go-Live-Preflight ergänzt (`scripts/run_golive_preflight.py`) inkl. Output `GO_LIVE_PREFLIGHT.md/.json` (Vendor + URL Checks Standard/Strict-Local).
 
 29. Sign-Off-Validierung ergänzt (`scripts/validate_golive_signoff.py`) inkl. Strict-Mode für harte Go/No-Go-Prüfung.
+
+30. Kombinierter Release-Gate-Runner ergänzt (`scripts/run_release_gate.py`) inkl. Output `GO_LIVE_RELEASE_GATE.md/.json` für einen Durchlauf (Preflight + Strict-Signoff).

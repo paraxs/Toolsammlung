@@ -9,7 +9,8 @@ Schneller, sicherer Go-Live-Durchlauf in 120 Minuten ohne neue Features.
 - Branch/Commit für Release markieren.
 
 ## 1) Infrastruktur-Check (T-110 bis T-90)
-- `python3 scripts/run_golive_preflight.py` ausführen (liefert Preflight-Report).
+- `python3 scripts/run_release_gate.py --serve` ausführen (kombiniert Preflight + Strict-Signoff-Check).
+- Falls Signoff noch bewusst offen ist: alternativ `python3 scripts/run_golive_preflight.py` separat nutzen.
 - `index.html` laden.
 - Go-Live Cockpit prüfen (Vendor + Tool-Status).
 - Standard + `?strictLocal=1` für mindestens 1 Tool smoke-testen.
@@ -32,6 +33,7 @@ Für alle 7 Tools mit `?strictLocal=1`:
 - `python3 scripts/generate_golive_signoff.py`
 - `GO_LIVE_SIGNOFF.md` ausfüllen (Pass/Fail je Tool/Modus).
 - `python3 scripts/validate_golive_signoff.py --strict` ausführen (nur grün = freigabefähig).
+- Optional als Gesamtprüfung wiederholen: `python3 scripts/run_release_gate.py --serve`.
 - Go/No-Go Entscheidung dokumentieren.
 
 ## 5) Live-Schaltung + Smoke (T-10 bis T+10)
