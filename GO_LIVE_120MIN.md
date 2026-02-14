@@ -31,6 +31,7 @@ Für alle 7 Tools mit `?strictLocal=1`:
 ## 4) Sign-Off (T-20 bis T-10)
 - `python3 scripts/generate_golive_signoff.py`
 - `GO_LIVE_SIGNOFF.md` ausfüllen (Pass/Fail je Tool/Modus).
+- `python3 scripts/validate_golive_signoff.py --strict` ausführen (nur grün = freigabefähig).
 - Go/No-Go Entscheidung dokumentieren.
 
 ## 5) Live-Schaltung + Smoke (T-10 bis T+10)

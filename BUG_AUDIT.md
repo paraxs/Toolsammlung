@@ -78,3 +78,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 27. Operativer Go-Live-Runbook ergänzt (`GO_LIVE_120MIN.md`) für schnellen 120-Minuten-Finish-Durchlauf mit klaren Stop-Kriterien.
 
 28. One-Command Go-Live-Preflight ergänzt (`scripts/run_golive_preflight.py`) inkl. Output `GO_LIVE_PREFLIGHT.md/.json` (Vendor + URL Checks Standard/Strict-Local).
+
+29. Sign-Off-Validierung ergänzt (`scripts/validate_golive_signoff.py`) inkl. Strict-Mode für harte Go/No-Go-Prüfung.
