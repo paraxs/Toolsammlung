@@ -93,6 +93,23 @@ const vendorFiles = [
       return { okCount, total: checks.length, checks };
     }
 
+
+
+    function updateToolRuntimeBadges(toolChecks) {
+      const map = new Map((toolChecks || []).map((r) => [r.file, r]));
+      document.querySelectorAll('[data-status-for]').forEach((el) => {
+        const key = el.getAttribute('data-status-for');
+        const r = map.get(key);
+        el.classList.remove('ok', 'miss');
+        if (!r) {
+          el.textContent = '● Status unbekannt';
+          return;
+        }
+        const ok = !!r.ok;
+        el.classList.add(ok ? 'ok' : 'miss');
+        el.textContent = ok ? '● Verfügbar' : `● Fehlt (${r.status || 'ERR'})`;
+      });
+    }
     function setGlobalStrictLocal(enabled) {
       const links = document.querySelectorAll('.tool-link');
       links.forEach((a) => {
@@ -107,6 +124,7 @@ const vendorFiles = [
     async function runReadinessChecks() {
       const vendor = await renderStatus('vendor-status', 'vendor-summary', vendorFiles, 'Strict-Local bereit');
       const tools = await renderStatus('tool-status', 'tool-summary', toolFiles, 'Go-Live bereit');
+      updateToolRuntimeBadges(tools.checks);
       const generatedAt = new Date().toISOString();
       const basePath = new URL('.', window.location.href).pathname;
 

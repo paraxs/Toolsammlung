@@ -70,3 +70,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 23. Startseite für Bedienbarkeit weiter fokussiert: Quickstart-3-Schritte ergänzt, erweiterte Freigabe-Aktionen (Export/Kopie) in aufklappbaren Bereich verschoben.
 
 24. Tool-Suche auf der Startseite ergänzt (Live-Filter + sichtbarer Trefferzähler), inkl. Persistenz der Suchanfrage für schnelleren Wiedereinstieg.
+
+25. Tool-Karten mit Live-Verfügbarkeitsstatus ergänzt (pro Tool Badge: verfügbar/fehlt inkl. Statuscode) für schnellere Go-Live-Entscheidungen.
