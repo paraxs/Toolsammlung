@@ -76,6 +76,11 @@
     .toolbar .btn{min-height:42px}
     .actions .btn{min-height:40px}
     .hero-actions .btn{min-height:42px}
+    .quickstart{margin-top:1rem;background:#fff;border:1px solid var(--border);border-radius:14px;padding:.85rem 1rem;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+    .quickstart .step{font-size:.9rem;color:#334155}
+    .quickstart .step strong{display:block;color:#0f172a;font-size:.92rem;margin-bottom:.18rem}
+    .advanced-tools{margin-top:.7rem}
+    .advanced-tools summary{font-size:.92rem}
     @media (max-width:900px){.check-grid{grid-template-columns:1fr}.hero-metrics{grid-template-columns:1fr}.hero-actions{flex-direction:column;align-items:flex-start}}
     @media (max-width:700px){
       .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
@@ -88,6 +93,7 @@
       h1{font-size:clamp(1.7rem,8vw,2.2rem)}
       .lead{font-size:1rem}
       .help-panel summary{font-size:.95rem}
+      .quickstart{grid-template-columns:1fr}
     }
       <p class="lead">Produktionsnahe Werkzeuge für Schindel, Dach und Sanierung – schnell erreichbar, intuitiv bedienbar und mit klarem Fokus auf produktive Baustellen-Workflows – inklusive Strict-Local Option.</p>
       <div class="hero-actions">
@@ -99,9 +105,21 @@
         <div class="metric"><strong>2</strong><span>Modi (Standard / Strict-Local)</span></div>
         <div class="metric"><strong>1</strong><span>Zentrale Startseite</span></div>
       </div>
-      <button class="btn btn-ghost" id="copyBlockersBtn" type="button">Blocker kopieren</button>
-      <small id="lastCheckAt" class="meta">Letzter Check: –</small>
-    <div class="section-title" id="tools">
+    <details class="help-panel advanced-tools">
+      <summary>Erweiterte Freigabe-Tools (Report/Kopie)</summary>
+      <div class="help-content" style="display:flex;gap:.55rem;flex-wrap:wrap;">
+        <button class="btn btn-ghost" id="exportReadinessBtn" type="button">Readiness-Report exportieren</button>
+        <button class="btn btn-ghost" id="copySummaryBtn" type="button">Kurzstatus kopieren</button>
+        <button class="btn btn-ghost" id="copyBlockersBtn" type="button">Blocker kopieren</button>
+      </div>
+    </details>
+
+    <section class="quickstart" aria-label="Schnellstart">
+      <div class="step"><strong>1) Modus wählen</strong>Standard oder Strict-Local aktivieren.</div>
+      <div class="step"><strong>2) Tool starten</strong>Passendes Werkzeug öffnen und arbeiten.</div>
+      <div class="step"><strong>3) Status prüfen</strong>Vor Livegang Cockpit und Blocker checken.</div>
+    </section>
+
       <div>
         <h2>Werkzeuge schnell starten</h2>
         <p>Wähle dein Tool und starte sofort – im Standardmodus oder direkt Strict-Local.</p>

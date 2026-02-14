@@ -66,3 +66,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 21. Mobile-UX der Startseite verbessert (Toolbar-Grid, vollbreite Aktionsbuttons, stabilere Lesbarkeit) und Dashboard-JS in `scripts/index-dashboard.js` ausgelagert.
 
 22. Startseite weiter entrümpelt für Mobile: technische Hinweise in aufklappbare Help-Panels verlagert, Touch-Targets vergrößert, Lesbarkeit im Hero verbessert.
+
+23. Startseite für Bedienbarkeit weiter fokussiert: Quickstart-3-Schritte ergänzt, erweiterte Freigabe-Aktionen (Export/Kopie) in aufklappbaren Bereich verschoben.
