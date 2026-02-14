@@ -60,3 +60,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 18. Manuelle Fach-Szenarien als Go-Live-Checkliste ergänzt (`GO_LIVE_MANUAL_SCENARIOS.md`) mit Export/Import/Visualisierung je Tool (Standard + Strict-Local).
 
 19. Sign-Off-Template ergänzt (`GO_LIVE_SIGNOFF.md`) + Generator (`scripts/generate_golive_signoff.py`) für reproduzierbare Freigabeprotokolle.
+
+20. Startseite UX/Design aufgewertet (Hero-CTAs, Metriken, klarere Abschnittsstruktur, visuell stärkere Tool-Karten) für einladenderen Ersteindruck.

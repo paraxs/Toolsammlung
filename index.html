@@ -26,11 +26,16 @@
     .hero-inner{position:relative;z-index:1}
     .kicker{text-transform:uppercase;letter-spacing:.2em;font-size:.75rem;color:rgba(255,255,255,.72)}
     h1{font-size:clamp(2rem,5vw,3.6rem);margin:.8rem 0 0;font-weight:800;line-height:1.05}
-    .accent{color:var(--primary)}
+    .accent{color:#7dc0ff}
     .lead{margin-top:1rem;max-width:780px;color:rgba(255,255,255,.9);line-height:1.6}
+    .hero-actions{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:1.15rem}
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:.65rem;margin-top:1.2rem;max-width:640px}
+    .metric{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:.65rem .8rem}
+    .metric strong{display:block;font-size:1.15rem;color:#fff}
+    .metric span{font-size:.82rem;color:rgba(255,255,255,.82)}
 
-    .section{padding:1.25rem 0}
-    .toolbar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:.9rem;margin-top:-2rem;position:relative;z-index:2;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+    .section{padding:1.25rem 0 2rem}
+    .toolbar{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1rem;margin-top:-2rem;position:relative;z-index:2;box-shadow:0 12px 28px rgba(15,23,42,.1)}
     .toggle{display:inline-flex;align-items:center;gap:.55rem;padding:.45rem .75rem;border:1px solid var(--border);border-radius:10px;background:#fff}
     .state{color:var(--muted);font-size:.92rem}
     .meta{color:var(--muted);font-size:.82rem}
@@ -44,29 +49,62 @@
     .btn:hover{transform:translateY(-1px)}
     .btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
     .btn-ghost{background:#fff;color:var(--text)}
+    .btn-soft{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);color:#fff}
 
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:.9rem;margin-top:1rem}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:.65rem;box-shadow:0 2px 8px rgba(15,23,42,.04)}
-    .card h2{margin:0;font-size:1rem}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.2rem}
+    .section-title h2{margin:0;font-size:1.35rem;color:#0f172a}
+    .section-title p{margin:.2rem 0 0;color:var(--muted);font-size:.95rem}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:1rem;margin-top:1rem}
+    .card{background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);border:1px solid var(--border);border-radius:16px;padding:1rem;display:flex;flex-direction:column;gap:.7rem;box-shadow:0 8px 20px rgba(15,23,42,.06);transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 14px 26px rgba(15,23,42,.1);border-color:#c4d6f2}
+    .card h2{margin:0;font-size:1.03rem}
     .card p{margin:0;color:var(--muted);font-size:.92rem;min-height:2.5em}
-    .actions{display:flex;gap:.5rem;flex-wrap:wrap}
+    .card-top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+    .pill{display:inline-flex;align-items:center;padding:.2rem .58rem;font-size:.76rem;font-weight:700;border-radius:999px;background:#e8f2ff;color:#0b4a8a;border:1px solid #bfd8ff}
+    .actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.2rem}
 
     .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:1rem}
     .panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem}
     .status-list{margin:.55rem 0 0;padding-left:1rem;color:var(--muted);font-size:.9rem}
     .status-ok{color:var(--ok);font-weight:700}
     .status-miss{color:var(--warn);font-weight:700}
-      <label class="toggle"><input type="checkbox" id="showMissingOnly"> Nur fehlende anzeigen</label>
-      <button class="btn btn-ghost" id="copySummaryBtn" type="button">Kurzstatus kopieren</button>
+    @media (max-width:900px){.check-grid{grid-template-columns:1fr}.hero-metrics{grid-template-columns:1fr}.hero-actions{flex-direction:column;align-items:flex-start}}
+      <p class="lead">Produktionsnahe Werkzeuge für Schindel, Dach und Sanierung – schnell erreichbar, visuell klar und bereit für den operativen Einsatz mit Strict-Local Option.</p>
+      <div class="hero-actions">
+        <a class="btn btn-soft" href="#tools">Jetzt Tool auswählen</a>
+        <a class="btn btn-soft" href="#readiness">Go-Live Status ansehen</a>
+      </div>
+      <div class="hero-metrics" aria-label="Kurzübersicht">
+        <div class="metric"><strong>7</strong><span>Spezial-Tools</span></div>
+        <div class="metric"><strong>2</strong><span>Modi (Standard / Strict-Local)</span></div>
+        <div class="metric"><strong>1</strong><span>Zentrale Startseite</span></div>
+      </div>
       <button class="btn btn-ghost" id="copyBlockersBtn" type="button">Blocker kopieren</button>
       <small id="lastCheckAt" class="meta">Letzter Check: –</small>
-    <section id="overallStatus" class="overall bad" aria-label="Go-Live Entscheidung">
-      <h4>Go-Live Entscheidung: wird geprüft …</h4>
-      <p id="overallSummary">Readiness läuft.</p>
-      <p class="meta" id="overallBlockers">Blocker werden ermittelt …</p>
-    </section>
+    <div class="section-title" id="tools">
+      <div>
+        <h2>Werkzeuge schnell starten</h2>
+        <p>Wähle dein Tool und starte sofort – im Standardmodus oder direkt Strict-Local.</p>
+      </div>
+      <span class="pill">Produktivbetrieb</span>
+    </div>
 
-      <br><span class="meta">Erkannter Basispfad: <code id="basePathLabel">(wird ermittelt)</code></span>
+      <article class="card"><div class="card-top"><h2>Holz-Tools (Wrapper)</h2><span class="pill">Holzbau</span></div><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="Holz-Tools.html" href="Holz-Tools.html">Öffnen</a><a class="btn btn-ghost" href="Holz-Tools.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>Sparrenlängen-Rechner</h2><span class="pill">Geometrie</span></div><p>Berechnung von Sparrenlängen und Geometrie.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="Sparrenlängen-Rechner%20V%202.3.html" href="Sparrenlängen-Rechner%20V%202.3.html">Öffnen</a><a class="btn btn-ghost" href="Sparrenlängen-Rechner%20V%202.3.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>Laser Entfernungsmesser</h2><span class="pill">Messung</span></div><p>Messungen erfassen und exportieren.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html">Öffnen</a><a class="btn btn-ghost" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>BM/HS/DD Rechner</h2><span class="pill">Dach</span></div><p>Dach-/Schindel-Berechnungen mit Export.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V6.1.18_BM_HS_DD%20.html" href="V6.1.18_BM_HS_DD%20.html">Öffnen</a><a class="btn btn-ghost" href="V6.1.18_BM_HS_DD%20.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>Abwicklung & Verschnitt</h2><span class="pill">Optimierung</span></div><p>Abwicklung und Optimierung für Zuschnitte.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V8.2Abwiklung%20Verschnittoptimierung.html" href="V8.2Abwiklung%20Verschnittoptimierung.html">Öffnen</a><a class="btn btn-ghost" href="V8.2Abwiklung%20Verschnittoptimierung.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>RestauroMap</h2><span class="pill">Dokumentation</span></div><p>Projektverwaltung und Dokumentation.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V9_7_RestauroMap_fix.html" href="V9_7_RestauroMap_fix.html">Öffnen</a><a class="btn btn-ghost" href="V9_7_RestauroMap_fix.html?strictLocal=1">Strict-Local</a></div></article>
+      <article class="card"><div class="card-top"><h2>Kegelstumpf-Rechner</h2><span class="pill">Abwicklung</span></div><p>Abwicklung für Kegelstumpf inkl. Export.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="v2.3.2_Abwicklung%20Kegelstumpf.html" href="v2.3.2_Abwicklung%20Kegelstumpf.html">Öffnen</a><a class="btn btn-ghost" href="v2.3.2_Abwicklung%20Kegelstumpf.html?strictLocal=1">Strict-Local</a></div></article>
+    <div class="section-title" id="readiness">
+      <div>
+        <h2>Go-Live Cockpit</h2>
+        <p>Transparenter Live-Status für Vendor- und Tool-Dateien inkl. Blocker-Hinweisen.</p>
+      </div>
+      <span class="pill">Live-Qualität</span>
+    </div>
+
     .diag{color:#6b7280;font-size:.8rem}\n    .precheck{margin-top:1rem;padding:.8rem 1rem;background:#fff;border:1px dashed var(--border);border-radius:12px;color:#4b5563;font-size:.9rem}
 
     .cta{margin-top:1.1rem;background:var(--primary);color:#fff;border-radius:14px;padding:1.25rem;text-align:center}
