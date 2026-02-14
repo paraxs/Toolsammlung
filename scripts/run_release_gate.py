@@ -10,6 +10,8 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 
+PREFLIGHT_JSON = Path("GO_LIVE_PREFLIGHT.json")
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -25,6 +27,11 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=8000,
         help="Port for temporary server and reachability check (default: 8000).",
+    )
+    parser.add_argument(
+        "--allow-open-signoff",
+        action="store_true",
+        help="Do not fail overall gate when strict signoff still contains template placeholders/fails.",
     )
     return parser.parse_args()
 
@@ -49,6 +56,19 @@ def server_reachable(port: int) -> bool:
         return False
 
 
+def safe_load_preflight_summary() -> dict:
+    if not PREFLIGHT_JSON.exists():
+        return {}
+
+    try:
+        payload = json.loads(PREFLIGHT_JSON.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+    summary = payload.get("summary")
+    return summary if isinstance(summary, dict) else {}
+
+
 def main() -> int:
     args = parse_args()
     now = datetime.now().isoformat(timespec="seconds")
@@ -71,34 +91,44 @@ def main() -> int:
 
     has_server = server_reachable(args.port)
     preflight_result: dict = {
-        "cmd": "python3 scripts/run_golive_preflight.py",
+        "cmd": f"{sys.executable} scripts/run_golive_preflight.py",
         "code": 2,
         "durationSec": 0,
         "stdout": "",
-        "stderr": "skipped: local server not reachable on port {}".format(args.port),
+        "stderr": f"skipped: local server not reachable on port {args.port}",
     }
 
     if has_server:
         preflight_result = run_command([sys.executable, "scripts/run_golive_preflight.py"])
 
     signoff_result = run_command([sys.executable, "scripts/validate_golive_signoff.py", "--strict"])
+    strict_signoff_ok = signoff_result["code"] == 0
+
+    if args.allow_open_signoff:
+        overall_ok = preflight_result["code"] == 0
+    else:
+        overall_ok = preflight_result["code"] == 0 and strict_signoff_ok
+
+    preflight_summary = safe_load_preflight_summary()
 
     summary = {
         "generatedAt": now,
+        "flags": {
+            "serve": args.serve,
+            "allowOpenSignoff": args.allow_open_signoff,
+        },
         "server": {
             "port": args.port,
             "reachable": has_server,
             "startedByScript": server_started,
-            "serveFlag": args.serve,
         },
         "checks": {
             "preflight": preflight_result,
             "signoffStrict": signoff_result,
         },
+        "preflightSummary": preflight_summary,
+        "overall": {"ok": overall_ok},
     }
-
-    overall_ok = preflight_result["code"] == 0 and signoff_result["code"] == 0
-    summary["overall"] = {"ok": overall_ok}
 
     Path("GO_LIVE_RELEASE_GATE.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -113,6 +143,16 @@ def main() -> int:
         "",
         f"- Gesamtstatus: {'✅ FREIGABE MÖGLICH' if overall_ok else '❌ NO-GO (Blocker vorhanden)'}",
         f"- Server erreichbar (127.0.0.1:{args.port}): {'✅' if has_server else '❌'}",
+        f"- Modus: {'Preflight-gesteuert (Signoff darf offen sein)' if args.allow_open_signoff else 'Strikt (Preflight + Signoff müssen grün sein)'}",
+    ]
+
+    if preflight_summary:
+        md_lines += [
+            f"- Preflight Summary: Vendor {preflight_summary.get('vendorPresent', '?')}/{preflight_summary.get('vendorTotal', '?')}, "
+            f"URLs {preflight_summary.get('urlOk', '?')}/{preflight_summary.get('urlTotal', '?')}",
+        ]
+
+    md_lines += [
         "",
         "## Check-Details",
         "",
@@ -123,8 +163,9 @@ def main() -> int:
         "",
         "## Hinweise",
         "",
-        "- Preflight benötigt einen erreichbaren lokalen Server auf Port 8000 (oder `--port`).",
-        "- Strict-Signoff schlägt fehl, solange Platzhalter oder Fail-Zeilen in `GO_LIVE_SIGNOFF.md` enthalten sind.",
+        "- Preflight benötigt einen erreichbaren lokalen Server (default Port 8000, alternativ `--port`).",
+        "- Strikter Modus bricht ab, solange Platzhalter oder Fail-Zeilen in `GO_LIVE_SIGNOFF.md` enthalten sind.",
+        "- Für Zwischenstände kann `--allow-open-signoff` genutzt werden, um Infrastruktur-Blocker separat zu beurteilen.",
         "",
     ]
 

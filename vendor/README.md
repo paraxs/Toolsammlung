@@ -57,3 +57,4 @@ Schneller Vorab-Check: `python3 scripts/run_golive_preflight.py` erzeugt `GO_LIV
 Sign-Off-Qualität prüfen: `python3 scripts/validate_golive_signoff.py` (oder `--strict` für harte Freigabeprüfung).
 
 Schneller End-to-End Gate-Check: `python3 scripts/run_release_gate.py --serve` erzeugt `GO_LIVE_RELEASE_GATE.md` und `GO_LIVE_RELEASE_GATE.json` (Preflight + Strict-Signoff in einem Lauf).
+Zwischenstand ohne finalen Signoff-Block: `python3 scripts/run_release_gate.py --serve --allow-open-signoff`.
