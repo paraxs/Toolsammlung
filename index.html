@@ -54,6 +54,8 @@
     .section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.2rem}
     .section-title h2{margin:0;font-size:1.35rem;color:#0f172a}
     .section-title p{margin:.2rem 0 0;color:var(--muted);font-size:.95rem}
+    .tool-filter{display:flex;align-items:center;gap:.5rem;background:#fff;border:1px solid var(--border);border-radius:10px;padding:.45rem .6rem;min-width:260px}
+    .tool-filter input{border:0;outline:0;width:100%;font-size:.92rem;background:transparent;color:#1f2937}
 
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:1rem;margin-top:1rem}
     .card{background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);border:1px solid var(--border);border-radius:16px;padding:1rem;display:flex;flex-direction:column;gap:.7rem;box-shadow:0 8px 20px rgba(15,23,42,.06);transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease}
@@ -89,6 +91,7 @@
       .card p{min-height:auto}
       .actions .btn{flex:1 1 calc(50% - .4rem);text-align:center}
       .section-title{align-items:flex-start;flex-direction:column}
+      .tool-filter{width:100%;min-width:0}
       .kicker{font-size:.68rem}
       h1{font-size:clamp(1.7rem,8vw,2.2rem)}
       .lead{font-size:1rem}
@@ -127,7 +130,11 @@
       <span class="pill">Produktivbetrieb</span>
     </div>
 
-      <article class="card"><div class="card-top"><h2>Holz-Tools (Wrapper)</h2><span class="pill">Holzbau</span></div><p>Festmeter + Balken-Stamm im kombinierten Tool.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="Holz-Tools.html" href="Holz-Tools.html">Öffnen</a><a class="btn btn-ghost" href="Holz-Tools.html?strictLocal=1">Strict-Local</a></div></article>
+      <label class="tool-filter" aria-label="Tool-Suche">
+        <span style="font-size:.84rem;color:#64748b;">🔎</span>
+        <input id="toolSearchInput" type="search" placeholder="Tool suchen …" autocomplete="off">
+      </label>
+      <span class="pill" id="toolCountPill">7 Tools</span>
       <article class="card"><div class="card-top"><h2>Sparrenlängen-Rechner</h2><span class="pill">Geometrie</span></div><p>Berechnung von Sparrenlängen und Geometrie.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="Sparrenlängen-Rechner%20V%202.3.html" href="Sparrenlängen-Rechner%20V%202.3.html">Öffnen</a><a class="btn btn-ghost" href="Sparrenlängen-Rechner%20V%202.3.html?strictLocal=1">Strict-Local</a></div></article>
       <article class="card"><div class="card-top"><h2>Laser Entfernungsmesser</h2><span class="pill">Messung</span></div><p>Messungen erfassen und exportieren.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html">Öffnen</a><a class="btn btn-ghost" href="V18.5.2%20Laser%20Entfernungsmesser%20Tool.html?strictLocal=1">Strict-Local</a></div></article>
       <article class="card"><div class="card-top"><h2>BM/HS/DD Rechner</h2><span class="pill">Dach</span></div><p>Dach-/Schindel-Berechnungen mit Export.</p><div class="actions"><a class="btn btn-primary tool-link" data-base="V6.1.18_BM_HS_DD%20.html" href="V6.1.18_BM_HS_DD%20.html">Öffnen</a><a class="btn btn-ghost" href="V6.1.18_BM_HS_DD%20.html?strictLocal=1">Strict-Local</a></div></article>

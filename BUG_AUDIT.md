@@ -68,3 +68,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 22. Startseite weiter entrümpelt für Mobile: technische Hinweise in aufklappbare Help-Panels verlagert, Touch-Targets vergrößert, Lesbarkeit im Hero verbessert.
 
 23. Startseite für Bedienbarkeit weiter fokussiert: Quickstart-3-Schritte ergänzt, erweiterte Freigabe-Aktionen (Export/Kopie) in aufklappbaren Bereich verschoben.
+
+24. Tool-Suche auf der Startseite ergänzt (Live-Filter + sichtbarer Trefferzähler), inkl. Persistenz der Suchanfrage für schnelleren Wiedereinstieg.

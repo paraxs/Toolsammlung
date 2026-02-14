@@ -237,4 +237,31 @@ Tools: ${r.tools.okCount}/${r.tools.total}`
       finally { if (btn) { btn.disabled = false; btn.textContent = 'Checks neu laden'; } }
     });
 
+
+    function initToolFilter() {
+      const input = document.getElementById('toolSearchInput');
+      const cards = Array.from(document.querySelectorAll('.grid .card'));
+      const countPill = document.getElementById('toolCountPill');
+      if (!input || cards.length === 0) return;
+
+      input.value = localStorage.getItem('toolSearchQuery') || '';
+
+      const apply = () => {
+        const q = input.value.trim().toLowerCase();
+        localStorage.setItem('toolSearchQuery', q);
+        let visible = 0;
+        cards.forEach((card) => {
+          const text = card.innerText.toLowerCase();
+          const show = !q || text.includes(q);
+          card.style.display = show ? '' : 'none';
+          if (show) visible += 1;
+        });
+        if (countPill) countPill.textContent = `${visible} von ${cards.length} Tools`;
+      };
+
+      input.addEventListener('input', apply);
+      apply();
+    }
+
+    initToolFilter();
     runReadinessChecks();
