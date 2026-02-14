@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolsammlung – Turmdecker Werkstatt</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --text: #0f172a;
+      --muted: #475569;
+      --line: #dbe3ee;
+      --primary: #1e66d0;
+      --primary-hover: #1755ad;
+      --ok: #1d9b57;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, #17396f 0%, rgba(23,57,111,0) 42%),
+        radial-gradient(circle at 100% 0%, #0b5fd7 0%, rgba(11,95,215,0) 38%),
+        var(--bg);
+      background-attachment: fixed;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 28px;
+    }
+
+    .hero {
+      color: white;
+      background: linear-gradient(145deg, rgba(8,22,48,0.95), rgba(23,95,199,0.95));
+      border-radius: 22px;
+      padding: 28px 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      letter-spacing: .2em;
+      font-size: .75rem;
+      opacity: .8;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 8px 0 8px;
+      font-size: clamp(1.8rem, 4.2vw, 2.9rem);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 70ch;
+      color: #e7eefb;
+      line-height: 1.5;
+      font-size: clamp(1rem, 2.3vw, 1.15rem);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .toolbar input[type="search"] {
+      flex: 1;
+      min-width: 210px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-size: 1rem;
+    }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      min-height: 44px;
+      user-select: none;
+      color: var(--muted);
+      background: var(--surface-2);
+      font-weight: 600;
+    }
+
+    .layout {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 980px) {
+      .layout {
+        grid-template-columns: minmax(290px, 360px) minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 1rem;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tool-list {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+      max-height: min(72vh, 900px);
+      overflow: auto;
+    }
+
+    .tool-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .tool-item.active {
+      border-color: var(--primary);
+      box-shadow: inset 0 0 0 1px var(--primary);
+      background: #f4f8ff;
+    }
+
+    .tool-item h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .tool-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .93rem;
+      line-height: 1.45;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 11px;
+      flex-wrap: wrap;
+    }
+
+    button, .link-btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: .92rem;
+    }
+
+    .open-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .open-btn:hover { background: var(--primary-hover); }
+
+    .link-btn {
+      background: var(--surface-2);
+      color: #1e293b;
+      border: 1px solid var(--line);
+    }
+
+    .viewer {
+      overflow: hidden;
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .viewer-header {
+      border-bottom: 1px solid var(--line);
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      background: var(--surface-2);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .viewer iframe {
+      width: 100%;
+      border: 0;
+      min-height: 70vh;
+      background: white;
+    }
+
+    .empty {
+      padding: 20px 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .status {
+      margin-top: 6px;
+      color: var(--ok);
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    footer {
+      margin-top: 15px;
+      color: #f1f5ff;
+      text-shadow: 0 1px 2px rgba(0,0,0,.3);
+      font-size: .88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <p class="eyebrow">Turmdecker Werkstatt</p>
+      <h1>TOOLSAMMLUNG.</h1>
+      <p>Produktionsnahe Werkzeuge für Schindel, Dach und Sanierung. Die Seite wurde bereinigt, mobil optimiert und zeigt jetzt alle verfügbaren Tools zuverlässig an.</p>
+    </header>
+
+    <section class="toolbar" aria-label="Werkzeug-Filter">
+      <input id="searchInput" type="search" placeholder="Tool suchen …" aria-label="Tool suchen" />
+      <label class="toggle" for="strictLocalToggle">
+        <input id="strictLocalToggle" type="checkbox" />
+        Strict-Local (ohne iframe)
+      </label>
+    </section>
+
+    <main class="layout">
+      <section class="panel" aria-labelledby="toolsHeading">
+        <h2 id="toolsHeading">Verfügbare Tools (<span id="toolCount">0</span>)</h2>
+        <ul id="toolList" class="tool-list"></ul>
+      </section>
+
+      <section class="panel viewer" aria-live="polite">
+        <div class="viewer-header">
+          <span id="viewerTitle">Noch kein Tool ausgewählt</span>
+          <a id="viewerOpenExternal" class="link-btn" target="_blank" rel="noopener" style="display:none;">Direkt öffnen ↗</a>
+        </div>
+        <iframe id="toolFrame" title="Tool Vorschau" loading="lazy"></iframe>
+        <div id="viewerEmpty" class="empty">Wähle links ein Tool aus, um es hier direkt zu starten.</div>
+      </section>
+    </main>
+
+    <footer>© Turmdecker Werkstatt · Toolsammlung Go-Live Build</footer>
+  </div>
+
+  <script>
+    const tools = [
+      { file: "Holz-Tools.html", name: "Holz-Tools (Wrapper)", desc: "Festmeter + Balken-Stamm im kombinierten Tool." },
+      { file: "V6.1.18_BM_HS_DD .html", name: "Bedarfsermittlung Holzschindel", desc: "Materialbedarf für Holzschindel-Projekte." },
+      { file: "V8.2Abwiklung Verschnittoptimierung.html", name: "Abwicklung & Verschnittoptimierung", desc: "Abwicklung und Verschnittberechnung." },
+      { file: "v2.3.2_Abwicklung Kegelstumpf.html", name: "Kegelstumpf-Rechner", desc: "Abwicklung für Kegelstumpf." },
+      { file: "Sparrenlängen-Rechner V 2.3.html", name: "Sparrenlängen-Rechner", desc: "Sparrenlängen schnell und nachvollziehbar berechnen." },
+      { file: "V18.5.2 Laser Entfernungsmesser Tool.html", name: "Laser Entfernungsmesser Tool", desc: "Messwerte verwalten und auswerten." },
+      { file: "V9_7_RestauroMap_fix.html", name: "RestauroMap Professional", desc: "Skizzen-, Maß- und Sanierungsdokumentation." }
+    ];
+
+    const toolList = document.getElementById("toolList");
+    const toolCount = document.getElementById("toolCount");
+    const searchInput = document.getElementById("searchInput");
+    const strictLocalToggle = document.getElementById("strictLocalToggle");
+    const toolFrame = document.getElementById("toolFrame");
+    const viewerTitle = document.getElementById("viewerTitle");
+    const viewerOpenExternal = document.getElementById("viewerOpenExternal");
+    const viewerEmpty = document.getElementById("viewerEmpty");
+
+    let activeFile = "";
+
+    function fileHref(file) {
+      return encodeURI(file);
+    }
+
+    function setActive(file) {
+      activeFile = file;
+      document.querySelectorAll(".tool-item").forEach((item) => {
+        item.classList.toggle("active", item.dataset.file === file);
+      });
+
+      const tool = tools.find((entry) => entry.file === file);
+      if (!tool) return;
+
+      const href = fileHref(tool.file);
+      viewerTitle.textContent = tool.name;
+      viewerOpenExternal.href = href;
+      viewerOpenExternal.style.display = "inline-flex";
+      viewerEmpty.style.display = "none";
+
+      if (strictLocalToggle.checked) {
+        toolFrame.removeAttribute("src");
+        window.location.href = href;
+      } else {
+        toolFrame.src = href;
+      }
+    }
+
+    function createToolItem(tool) {
+      const li = document.createElement("li");
+      li.className = "tool-item";
+      li.dataset.file = tool.file;
+
+      const title = document.createElement("h3");
+      title.textContent = tool.name;
+
+      const desc = document.createElement("p");
+      desc.textContent = tool.desc;
+
+      const status = document.createElement("div");
+      status.className = "status";
+      status.textContent = "✓ Datei eingebunden";
+
+      const actions = document.createElement("div");
+      actions.className = "actions";
+
+      const openBtn = document.createElement("button");
+      openBtn.className = "open-btn";
+      openBtn.type = "button";
+      openBtn.textContent = "Öffnen";
+      openBtn.addEventListener("click", () => setActive(tool.file));
+
+      const newTab = document.createElement("a");
+      newTab.className = "link-btn";
+      newTab.href = fileHref(tool.file);
+      newTab.target = "_blank";
+      newTab.rel = "noopener";
+      newTab.textContent = "Neuer Tab";
+
+      actions.append(openBtn, newTab);
+      li.append(title, desc, status, actions);
+      return li;
+    }
+
+    function renderTools() {
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = tools.filter((tool) => {
+        const haystack = `${tool.name} ${tool.desc} ${tool.file}`.toLowerCase();
+        return haystack.includes(q);
+      });
+
+      toolList.innerHTML = "";
+      filtered.forEach((tool) => toolList.appendChild(createToolItem(tool)));
+      toolCount.textContent = String(filtered.length);
+
+      if (!filtered.some((item) => item.file === activeFile)) {
+        activeFile = "";
+        toolFrame.removeAttribute("src");
+        viewerTitle.textContent = filtered.length ? "Tool auswählen" : "Keine Treffer";
+        viewerOpenExternal.style.display = "none";
+        viewerEmpty.style.display = "block";
+      }
+    }
+
+    searchInput.addEventListener("input", renderTools);
+    strictLocalToggle.addEventListener("change", () => {
+      if (activeFile && !strictLocalToggle.checked) {
+        toolFrame.src = fileHref(activeFile);
+      }
+    });
+
+    renderTools();
+  </script>
+</body>
+</html>
