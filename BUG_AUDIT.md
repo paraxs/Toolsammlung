@@ -62,3 +62,5 @@ Stabilität erhöhen und UI vereinheitlichen, ohne funktionierende Berechnungslo
 19. Sign-Off-Template ergänzt (`GO_LIVE_SIGNOFF.md`) + Generator (`scripts/generate_golive_signoff.py`) für reproduzierbare Freigabeprotokolle.
 
 20. Startseite UX/Design aufgewertet (Hero-CTAs, Metriken, klarere Abschnittsstruktur, visuell stärkere Tool-Karten) für einladenderen Ersteindruck.
+
+21. Mobile-UX der Startseite verbessert (Toolbar-Grid, vollbreite Aktionsbuttons, stabilere Lesbarkeit) und Dashboard-JS in `scripts/index-dashboard.js` ausgelagert.
