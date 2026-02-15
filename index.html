@@ -106,6 +106,16 @@
       font-weight: 600;
     }
 
+    .mode-badge {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: .85rem;
+      color: #0b3f8f;
+      background: #eaf2ff;
+      font-weight: 700;
+    }
+
     .layout {
       display: grid;
       gap: 14px;
@@ -269,6 +279,7 @@
         <input id="strictLocalToggle" type="checkbox" />
         Direkt öffnen (ohne iframe)
       </label>
+      <span id="modeBadge" class="mode-badge" aria-live="polite">Modus: Auto</span>
     </section>
 
     <main class="layout">
@@ -339,6 +350,9 @@
     const viewerOpenExternal = document.getElementById("viewerOpenExternal");
     const viewerEmpty = document.getElementById("viewerEmpty");
     const viewerPanel = document.querySelector(".viewer");
+    const modeBadge = document.getElementById("modeBadge");
+
+    const UI_STATE_KEY = "toolsammlung-index-ui-state-v1";
 
     const params = new URLSearchParams(window.location.search);
     const forcedContentMode = params.get("mode") === "content";
@@ -423,7 +437,10 @@
       openBtn.className = "open-btn";
       openBtn.type = "button";
       openBtn.textContent = "Öffnen";
-      openBtn.addEventListener("click", () => setActive(tool.file));
+      openBtn.addEventListener("click", () => {
+        setActive(tool.file);
+        saveUiState();
+      });
 
       const newTab = document.createElement("button");
       newTab.className = "link-btn";
@@ -432,11 +449,35 @@
       newTab.addEventListener("click", () => {
         const href = fileHref(tool.file);
         openInNewTab(href);
+        activeFile = tool.file;
+        saveUiState();
       });
 
       actions.append(openBtn, newTab);
       li.append(title, desc, status, actions);
       return li;
+    }
+
+    function saveUiState() {
+      const state = {
+        search: searchInput.value || "",
+        strictLocal: !!strictLocalToggle.checked,
+        lastTool: activeFile || ""
+      };
+      try {
+        localStorage.setItem(UI_STATE_KEY, JSON.stringify(state));
+      } catch (_) {}
+    }
+
+    function loadUiState() {
+      try {
+        const raw = localStorage.getItem(UI_STATE_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : null;
+      } catch (_) {
+        return null;
+      }
     }
 
     function renderTools() {
@@ -460,12 +501,16 @@
       }
     }
 
-    searchInput.addEventListener("input", renderTools);
+    searchInput.addEventListener("input", () => {
+      renderTools();
+      saveUiState();
+    });
     strictLocalToggle.addEventListener("change", () => {
       applyViewerMode();
       if (activeFile && !strictLocalToggle.checked && !externalOnlyMode) {
         toolFrame.src = fileHref(activeFile);
       }
+      saveUiState();
     });
 
     if (externalOnlyMode) {
@@ -473,6 +518,19 @@
       strictLocalToggle.disabled = true;
       strictLocalToggle.title = "Bei lokalem Öffnen (file/content) ist direkte Navigation erforderlich.";
       viewerOpenExternal.target = "_self";
+    }
+
+    const protocolLabel = contentProtocolMode
+      ? "Modus: Content-Fallback"
+      : window.location.protocol === "file:"
+        ? "Modus: Lokal-Datei"
+        : "Modus: Web/Server";
+    if (modeBadge) modeBadge.textContent = protocolLabel;
+
+    const state = loadUiState();
+    if (state) {
+      if (typeof state.search === "string") searchInput.value = state.search;
+      if (!externalOnlyMode && typeof state.strictLocal === "boolean") strictLocalToggle.checked = state.strictLocal;
     }
 
     window.addEventListener("beforeunload", () => {
@@ -484,6 +542,11 @@
 
     applyViewerMode();
     renderTools();
+
+    if (!externalOnlyMode && state && typeof state.lastTool === "string" && state.lastTool) {
+      const exists = tools.some((t) => t.file === state.lastTool);
+      if (exists) setActive(state.lastTool);
+    }
   </script>
 </body>
 </html>
