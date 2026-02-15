@@ -306,7 +306,7 @@
       { file: "Holz-Tools.html", name: "Holz-Tools (Wrapper)", desc: "Festmeter + Balken-Stamm im kombinierten Tool." },
       { file: "V6.1.18_BM_HS_DD .html", name: "Bedarfsermittlung Holzschindel", desc: "Materialbedarf für Holzschindel-Projekte." },
       { file: "V8.2Abwiklung Verschnittoptimierung.html", name: "Abwicklung & Verschnittoptimierung", desc: "Abwicklung und Verschnittberechnung." },
-      { file: "v2.3.2_Abwicklung Kegelstumpf.html", name: "Kegelstumpf-Rechner", desc: "Abwicklung für Kegelstumpf." },
+      { file: "v2.3.2_Abwicklung Kegelstumpf.html", name: "Kegelstumpf-Rechner", desc: "Abwicklung für Kegelstumpf.", forceDirectInContent: true },
       { file: "Sparrenlängen-Rechner V 2.3.html", name: "Sparrenlängen-Rechner", desc: "Sparrenlängen schnell und nachvollziehbar berechnen." },
       { file: "V18.5.2 Laser Entfernungsmesser Tool.html", name: "Laser Entfernungsmesser Tool", desc: "Messwerte verwalten und auswerten." },
       { file: "V9_7_RestauroMap_fix.html", name: "RestauroMap Professional", desc: "Skizzen-, Maß- und Sanierungsdokumentation." }
@@ -362,8 +362,14 @@
 
     let activeFile = "";
 
+    function shouldUseEmbeddedFallback(file) {
+      if (!contentProtocolMode) return false;
+      const meta = tools.find((tool) => tool.file === file);
+      return !(meta && meta.forceDirectInContent);
+    }
+
     function fileHref(file) {
-      if (contentProtocolMode) {
+      if (shouldUseEmbeddedFallback(file)) {
         const embeddedUrl = getEmbeddedToolUrl(file);
         if (embeddedUrl) return embeddedUrl;
       }
